@@ -1,14 +1,38 @@
 <template>
   <Page>
-    <ActionBar title="Camera Tests FTW!" />
-    <StackLayout>
-      <Button text="Take Picture" @tap="takePicture" />
-      <Button text="Choose Picture" @tap="selectPicture" />
-      <WrapLayout v-bind:key="img" v-for="img in images">
-        <Image :src="img.src" width="75" height="75" />
-        <Button text="Upload" @tap="upload(img)" />
-      </WrapLayout>
-    </StackLayout>
+    <ActionBar title="GeoGussr" />
+
+    <BottomNavigation selectedIndex="0">
+      <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+      <TabStrip>
+        <TabStripItem class="special">
+          <Label text="Home"></Label>
+        </TabStripItem>
+        <TabStripItem>
+          <Label text="Série"></Label>
+        </TabStripItem>
+      </TabStrip>
+
+      <!-- The number of TabContentItem components should corespond to the number of TabStripItem components -->
+      <TabContentItem>
+        <GridLayout>
+          <StackLayout>
+            <Button text="Take Picture" @tap="takePicture" />
+            <Button text="Choose Picture" @tap="selectPicture" />
+            <Label> Images prises :</Label>
+            <WrapLayout v-bind:key="img" v-for="img in images">
+              <Image :src="img.src" width="75" height="75" />
+              <Button text="Upload" @tap="upload(img)" />
+            </WrapLayout>
+          </StackLayout>
+        </GridLayout>
+      </TabContentItem>
+      <TabContentItem>
+        <GridLayout>
+          <Label text="Série" class="h2 text-center"></Label>
+        </GridLayout>
+      </TabContentItem>
+    </BottomNavigation>
   </Page>
 </template>
 
@@ -105,3 +129,9 @@ export default {
   }
 };
 </script>
+<style>
+label {
+  font-size: 19em;
+  text-align: center;
+}
+</style>
