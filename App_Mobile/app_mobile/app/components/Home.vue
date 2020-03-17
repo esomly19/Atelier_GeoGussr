@@ -20,16 +20,19 @@
             <Button text="Take Picture" @tap="takePicture" />
             <Button text="Choose Picture" @tap="selectPicture" />
             <Label> Images prises :</Label>
-            <WrapLayout v-bind:key="img" v-for="img in images">
-              <Image :src="img.src" width="75" height="75" />
-              <Button text="Upload" @tap="upload(img)" />
-            </WrapLayout>
           </StackLayout>
         </GridLayout>
       </TabContentItem>
       <TabContentItem>
         <GridLayout>
-          <Label text="Série" class="h2 text-center"></Label>
+          <StackLayout>
+            <Label text="Série" class="h2 text-center"></Label>
+            <Button @tap="createSerie"> Créer une série </Button>
+            <WrapLayout v-bind:key="img" v-for="img in images">
+              <Image :src="img.src" width="75" height="75" />
+              <Button text="Upload" @tap="upload(img)" />
+            </WrapLayout>
+          </StackLayout>
         </GridLayout>
       </TabContentItem>
     </BottomNavigation>
@@ -48,10 +51,14 @@ const session = bghttp.session("image-upload");
 export default {
   data() {
     return {
-      images: []
+      images: [],
+      series: []
     };
   },
   methods: {
+    createSerie() {
+      this.$navigateto("");
+    },
     selectPicture() {
       let context = imagepicker.create({
         mode: "multiple"
@@ -100,7 +107,7 @@ export default {
           console.log("Error requesting permission");
         });
     },
-
+    ajouterAseries() {},
     upload(img) {
       const key = "5b8d8ddf5f51b132601bd919362ebdbb";
       let urlApi = "https://api.imgbb.com/1/upload?key=" + key;
