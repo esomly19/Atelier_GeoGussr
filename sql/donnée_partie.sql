@@ -1,5 +1,5 @@
 
-INSERT INTO `série` (`ville`,`map_refs`,`dist`)
+INSERT INTO `serie` (`ville`,`map_refs`,`dist`)
 VALUES
 ('Nancy','NULL',50),
 ('Nancy','NULL',100),
@@ -8,18 +8,18 @@ VALUES
 
 INSERT INTO `photo` (`desc`,`position_X`,`position_Y`,`url`)
 VALUES
-('Place Stanilas',48.69350,6.18328,NULL),
-('Place Saint-Epvre',18.69632,6.17922,NULL),
-('Porte Stanilas',48.69111,6.17543,NULL),
-('Gare (Status des Coeurs)',48.688982,6.175579,NULL),
-('Viaduc Kennedy (Métropole du grand Nancy)',48.686137,6.174943,NULL),
-('IUT Nancy Charlemagne',48.683124,6.161126,NULL),
-('parc Sainte-Marie',48.680668,6.170788,NULL),
-('Boulevard d austrasie (L autre Canal)',48.694061,6.198157,NULL),
-('Boulevard Jean Jaurès (caisse d épargne)',48.681087,6.176793,NULL),
-('Place Charles III',48.689076,6.181556,NULL);
+('Place Stanilas',48.69350,6.18328,'NULL'),
+('Place Saint-Epvre',18.69632,6.17922,'NULL'),
+('Porte Stanilas',48.69111,6.17543,'NULL'),
+('Gare (Status des Coeurs)',48.688982,6.175579,'NULL'),
+('Viaduc Kennedy (Métropole du grand Nancy)',48.686137,6.174943,'NULL'),
+('IUT Nancy Charlemagne',48.683124,6.161126,'NULL'),
+('parc Sainte-Marie',48.680668,6.170788,'NULL'),
+('Boulevard d austrasie (L autre Canal)',48.694061,6.198157,'NULL'),
+('Boulevard Jean Jaurès (caisse d épargne)',48.681087,6.176793,'NULL'),
+('Place Charles III',48.689076,6.181556,'NULL');
 
-INSERT INTO `série_photo` (`id_série`,`id_photo`)
+INSERT INTO `serie_photo` (`id_serie`,`id_photo`)
 VALUES
 ('1','1'),
 ('1','2'),
