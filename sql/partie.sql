@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS `photo` (
   `position_X` float(10) NOT NULL,
   `position_Y` float(10) NOT NULL,
   `url` varchar(255)  NOT NULL,
-  `id_serie` bigint(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
