@@ -1,42 +1,63 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `partie`;
-CREATE TABLE IF NOT EXISTS `partie`(
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `token` varchar(255) DEFAULT NULL,
-  `nb_photos` int(2) NOT NULL,
-  `status` int(1) NOT NULL,
-  `score` varchar(10) NOT NULL,
-  `joueur` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+INSERT INTO `serie` (`ville`,`map_refs`,`dist`)
+VALUES
+('Nancy','NULL',50),
+('Nancy','NULL',100),
+('Nancy','NULL',250),
+('Nancy','NULL',500);
 
-DROP TABLE IF EXISTS `série`;
-CREATE TABLE IF NOT EXISTS `série` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ville` varchar(100) NOT NULL,
-  `map_refs` varchar(255) NOT NULL,
-  `dist` int(4)  NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `photo` (`desc`,`position_X`,`position_Y`,`url`)
+VALUES
+('Place Stanilas',48.69350,6.18328,'NULL'),
+('Place Saint-Epvre',18.69632,6.17922,'NULL'),
+('Porte Stanilas',48.69111,6.17543,'NULL'),
+('Gare (Status des Coeurs)',48.688982,6.175579,'NULL'),
+('Viaduc Kennedy (Métropole du grand Nancy)',48.686137,6.174943,'NULL'),
+('IUT Nancy Charlemagne',48.683124,6.161126,'NULL'),
+('parc Sainte-Marie',48.680668,6.170788,'NULL'),
+('Boulevard d austrasie (L autre Canal)',48.694061,6.198157,'NULL'),
+('Boulevard Jean Jaurès (caisse d épargne)',48.681087,6.176793,'NULL'),
+('Place Charles III',48.689076,6.181556,'NULL');
 
-
-
-DROP TABLE IF EXISTS `photo`;
-CREATE TABLE IF NOT EXISTS `photo` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `desc` varchar(255) NOT NULL,
-  `position_X` float(10) NOT NULL,
-  `position_Y` float(10) NOT NULL,
-  `url` varchar(255)  NOT NULL,
-  `id_série` bigint(20) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  FOREIGN KEY (`id_série`) REFERENCES `série`(`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
+INSERT INTO `serie_photo` (`id_serie`,`id_photo`)
+VALUES
+('1','1'),
+('1','2'),
+('1','3'),
+('1','4'),
+('1','5'),
+('1','6'),
+('1','7'),
+('1','8'),
+('1','9'),
+('1','10'),
+('2','1'),
+('2','2'),
+('2','3'),
+('2','4'),
+('2','5'),
+('2','6'),
+('2','7'),
+('2','8'),
+('2','9'),
+('2','10'),
+('3','1'),
+('3','2'),
+('3','3'),
+('3','4'),
+('3','5'),
+('3','6'),
+('3','7'),
+('3','8'),
+('3','9'),
+('3','10'),
+('4','1'),
+('4','2'),
+('4','3'),
+('4','4'),
+('4','5'),
+('4','6'),
+('4','7'),
+('4','8'),
+('4','9'),
+('4','10');
