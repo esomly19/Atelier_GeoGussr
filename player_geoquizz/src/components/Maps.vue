@@ -3,6 +3,7 @@
         <l-map style="height: 50rem" :zoom="zoom" :center="center" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
             <l-tile-layer :url="url"></l-tile-layer>
             <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable" v-on:click="setPosition()"></l-marker>
+            <l-marker :lat-lng="PlaceToFind" :draggable="false" :visible="end"></l-marker>
             <l-circle :lat-lng="PlaceToFind" :radius="distM" v-if="dist !== 0"></l-circle>
         </l-map>
         
@@ -48,7 +49,8 @@ export default {
           },
           PlaceToFind: { lat: 48.6833, lng: 6.2},
           dist: 0,
-          distM: 0
+          distM: 0,
+          end: false
           
           
       }
@@ -77,7 +79,9 @@ export default {
            this.dist = this.dist * 60 * 1.1515
            this.dist = this.dist * 1.609344
            this.distM = this.dist*1000
-           this.$modal.show("Stats", {distance: this.dist})
+           this.end = true
+           this.$emit('submitResult')
+           this.$modal.show("Score", {distance: this.dist}, {draggable: true})
 
        }
     },
