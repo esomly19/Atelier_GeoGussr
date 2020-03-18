@@ -9,7 +9,7 @@ import VModal from 'vue-js-modal';
 import ProgressBar from 'vuejs-progress-bar'
 
 Vue.use(VueRouter)
-Vue.use(VModal)
+Vue.use(VModal, { dynamic: true, dynamicDefaults: { clickToClose: false }})
 Vue.use(ProgressBar)
 
 const router = new VueRouter({
