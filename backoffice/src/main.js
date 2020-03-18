@@ -3,6 +3,8 @@ import App from "./App.vue";
 import VModal from "vue-js-modal";
 import VueRouter from "vue-router";
 import Home from "./components/Home.vue";
+
+import "leaflet/dist/leaflet.css";
 import Serie from "./components/Serie.vue";
 import AddPhoto from "./components/AddPhoto.vue";
 import NotFound from "./components/NotFound.vue";
