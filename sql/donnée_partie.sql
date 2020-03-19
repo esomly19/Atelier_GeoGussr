@@ -6,7 +6,7 @@ VALUES
 ('Nancy','5',250),
 ('Nancy','15',500);
 
-INSERT INTO `photo` (`desc`,`position_X`,`position_Y`,`url`)
+INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`)
 VALUES
 ('Place Stanislas',48.69350,6.18328,'NULL'),
 ('Place Saint-Epvre',48.69632,6.17922,'NULL'),

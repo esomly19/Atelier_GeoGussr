@@ -34,8 +34,8 @@ DROP TABLE IF EXISTS `photo`;
 CREATE TABLE IF NOT EXISTS `photo` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `desc` varchar(255) NOT NULL,
-  `position_X` float(10) NOT NULL,
-  `position_Y` float(10) NOT NULL,
+  `positionX` float(10) NOT NULL,
+  `positionY` float(10) NOT NULL,
   `url` varchar(255)  NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
