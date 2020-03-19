@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS `serie` (
   `map_refs` varchar(255) NOT NULL,
   `dist` int(4)  NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `serie_Unique` (`ville`,`map_refs`,`dist`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
