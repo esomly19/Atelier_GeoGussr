@@ -5,9 +5,12 @@ import StartGame from "./components/StartGame.vue"
 import "bootstrap/dist/css/bootstrap.css"
 import 'leaflet/dist/leaflet.css';
 import VueRouter from 'vue-router';
+import VModal from 'vue-js-modal';
+import ProgressBar from 'vuejs-progress-bar'
 
 Vue.use(VueRouter)
-
+Vue.use(VModal, { dynamic: true, dynamicDefaults: { clickToClose: false }})
+Vue.use(ProgressBar)
 
 const router = new VueRouter({
   mode: "history",
