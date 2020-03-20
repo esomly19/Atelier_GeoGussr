@@ -1,10 +1,10 @@
 
 INSERT INTO `serie` (`ville`,`map_refs`,`dist`)
 VALUES
-('Nancy','1',50),
-('Nancy','2',100),
-('Nancy','5',250),
-('Nancy','15',500);
+('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',50),
+('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',100),
+('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',250),
+('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',500);
 
 INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`)
 VALUES
@@ -61,3 +61,9 @@ VALUES
 ('4','8'),
 ('4','9'),
 ('4','10');
+
+
+INSERT INTO `utilisateur` (`email`,`password`)
+VALUES
+('admin','$2y$10$SgqINto.4DDHqHTsHVOxqONUTWDnvKTxxFf9gYa4Ewnv2mph/Sxim'),
+('mobileman@gmail.com','$2y$10$ThBunj.Zk1EYbVr7BQPKku1THP60Bxo1PQwH04Fy7McWLXS86nqf.');

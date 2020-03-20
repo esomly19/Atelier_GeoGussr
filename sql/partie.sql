@@ -49,3 +49,12 @@ CREATE TABLE IF NOT EXISTS `serie_photo` (
   FOREIGN KEY (`id_serie`) REFERENCES `serie`(`id`),
   FOREIGN KEY (`id_photo`) REFERENCES `photo`(`id_photo`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur`(
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id`(`id`)
+)ENGINE=MyISAM DEFAULT CHARSET=latin1;
