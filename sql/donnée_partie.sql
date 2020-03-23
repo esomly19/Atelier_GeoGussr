@@ -8,6 +8,7 @@ VALUES
 
 INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`)
 VALUES
+
 ('Place Stanislas',48.693618,6.183241,'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Vue_de_nuit_de_la_Place_Stanislas_%C3%A0_Nancy.jpg/526px-Vue_de_nuit_de_la_Place_Stanislas_%C3%A0_Nancy.jpg'),
 ('Place Saint-Epvre',48.696239,6.179228,'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Basilique_Saint-Epvre_de_Nancy_et_place_Saint-Epvre.JPG/600px-Basilique_Saint-Epvre_de_Nancy_et_place_Saint-Epvre.JPG'),
 ('Porte Stanislas',48.691180,6.175507,'http://www.agencecaillault.com/wp-content/uploads/2017/08/Agence-Caillault-ACMH-Porte-Stanislas-Nancy-Mise-en-lumi%C3%A8re-de-la-fa%C3%A7ade-est-1024x663.jpg'),
