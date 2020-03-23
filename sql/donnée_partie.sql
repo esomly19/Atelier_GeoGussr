@@ -11,7 +11,7 @@ VALUES
 ('Place Stanislas',48.69350,6.18328,'NULL'),
 ('Place Saint-Epvre',48.69632,6.17922,'NULL'),
 ('Porte Stanislas',48.69111,6.17543,'NULL'),
-('Gare (Statut des Coeurs)',48.688982,6.175579,'NULL'),
+('Gare (Statue des Coeurs)',48.688982,6.175579,'NULL'),
 ('Viaduc Kennedy (Métropole du grand Nancy)',48.686137,6.174943,'NULL'),
 ('IUT Nancy Charlemagne',48.683124,6.161126,'NULL'),
 ('parc Sainte-Marie',48.680668,6.170788,'NULL'),
