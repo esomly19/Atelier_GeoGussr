@@ -6,17 +6,21 @@
       <div class="wrap">
         <div class="box one">
           <div class="poster p1">
-            <router-link to="/"> <h4>+</h4></router-link>
+            <h4 v-on:click="show">+</h4>
             <!-- -->
           </div>
         </div>
       </div>
     </div>
+    <modal :width="1200" :height="500" name="ok">
+      <AddPhoto></AddPhoto>
+    </modal>
   </div>
 </template>
 
 <script>
-export default {};
+import AddPhoto from "./AddPhoto";
+export default { components: { AddPhoto } };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
