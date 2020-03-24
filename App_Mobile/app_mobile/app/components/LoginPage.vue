@@ -71,21 +71,12 @@
 </template>
 
 <script>
+import axios from "axios";
 // A stub for a service that authenticates users.
-const userService = {
-  register(user) {
-    return Promise.resolve(user);
-  },
-  login(user) {
-    return Promise.resolve(user);
-  },
-  resetPassword(email) {
-    return Promise.resolve(email);
-  }
-};
+
 
 // A stub for the main page of your app. In a real app you’d put this page in its own .vue file.
-import Home from "Home";
+import Home from "./Home";
 export default {
   data() {
     return {
@@ -94,7 +85,8 @@ export default {
         email: "",
         password: "",
         confirmPassword: ""
-      }
+      },
+
     };
   },
   methods: {
@@ -105,7 +97,7 @@ export default {
     submit() {
       if (!this.user.email || !this.user.password) {
         this.alert("Veuillez indiquer une adresse email et un mot de passe.");
-        return;
+       
       }
       if (this.isLoggingIn) {
         this.login();
@@ -113,33 +105,60 @@ export default {
         this.register();
       }
     },
-
-    login() {
-      userService
-        .login(this.user)
-        .then(() => {
+  logine(user) {
+ axios({
+        method: "post",
+        url: "http://geogatotor.pagekite.me/connexion",
+        data: {
+          "email":user.email,
+          "password":user.password
+}
+      })
+        .then(result => {
+         console.log(result);
           this.$navigateTo(Home);
+ 
         })
-        .catch(() => {
-          this.alert("Malheureusement nous n'avaons pas trouvé votre compte.");
-        });
+        .catch(err => {
+          console.error(err.message);
+      this.alert("Malheureusement nous n'avaons pas trouvé votre compte.");
+
+        })
+        .finally(() => {});
+  },
+    login() {
+    this.logine(this.user);
     },
 
+    registery(user) {
+    axios({
+        method: "post",
+        url: "http://geogatotor.pagekite.me/utilisateur",
+        data: {
+          "email":user.email,
+          "password":user.password
+}
+      })
+        .then(result => {
+         console.log(result);
+                this.$navigateTo(Home);
+        })
+        .catch(err => {
+          console.error(err.message);
+             this.alert("Malheureusement nous n'avaons pas pu créer votre compte.");
+        })
+        .finally(() => {});
+      },
     register() {
       if (this.user.password != this.user.confirmPassword) {
         this.alert("Vos mots de passe ne sont pas identiques.");
         return;
-      }
+      }else{
+ this.registery(this.user);
+     
+}
 
-      userService
-        .register(this.user)
-        .then(() => {
-          this.alert("Votre compte à était créer.");
-          this.isLoggingIn = true;
-        })
-        .catch(() => {
-          this.alert("Malheureusement nous n'avons pas pu créer votre compte.");
-        });
+    
     },
 
     focusPassword() {

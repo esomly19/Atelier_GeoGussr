@@ -9,7 +9,10 @@
           <Label text="Home"></Label>
         </TabStripItem>
         <TabStripItem>
-          <Label text="Série"></Label>
+          <Label text="Création Série"></Label>
+        </TabStripItem>
+      <TabStripItem>
+          <Label text="Séries"></Label>
         </TabStripItem>
       </TabStrip>
 
@@ -20,19 +23,45 @@
             <Button text="Take Picture" @tap="takePicture" />
             <Button text="Choose Picture" @tap="selectPicture" />
             <Label> Images prises :</Label>
+	<WrapLayout v-for="img in images">
+				<Image  :src="img.src" width="75" height="75" />
+  <TextField v-model="name"  @returnPress="ok" hint="Description de la photo"></TextField>
+				<Button :isEnabled="affiche" text="Upload" @tap="upload(img)" />
+			</WrapLayout>
+
+
+
           </StackLayout>
         </GridLayout>
       </TabContentItem>
       <TabContentItem>
         <GridLayout>
           <StackLayout>
-            <Label text="Série" class="h2 text-center"></Label>
+            <Label text="Création d'une série" class="h2 text-center"></Label>
             <Button @tap="onAddTap"> Créer une série </Button>
 
-            <SerieList :Series="Series" />
-          </StackLayout>
-        </GridLayout>
+        
+
+  <Label> Images prises et déja envoyé:</Label>
+	<WrapLayout v-for="img in imagesprises">
+				<Image  :src="img.src" width="75" height="75" />
+			</WrapLayout>
+     </StackLayout>
+   </GridLayout>
       </TabContentItem>
+      <TabContentItem>
+   <GridLayout>
+          <StackLayout>
+            <Label text="Série dans la bdd " class="h2 text-center"></Label>
+           
+
+            <SerieList :Series="Series" />
+      
+
+     </StackLayout>
+   </GridLayout>
+    </TabContentItem>
+
     </BottomNavigation>
   </Page>
 </template>
@@ -41,27 +70,33 @@
 import * as camera from "nativescript-camera";
 import createSerie from "./CreateSerie";
 import SerieList from "./SerieList";
-import seriedata from "../serie-data.json";
 import * as imagepicker from "nativescript-imagepicker";
 import * as Geolocation from "nativescript-geolocation";
 import { Image } from "tns-core-modules/ui/image";
-
+import axios from "axios";
 const bghttp = require("nativescript-background-http");
+
 const session = bghttp.session("image-upload");
 
 export default {
   components: { createSerie, SerieList },
   data() {
     return {
+name: "",
       images: [],
+      imagesprises: [],
       series: [],
       needLocation: true,
       locationFailure: false,
       location: null,
-      Series: seriedata.Series
+      Series: [],
+      url: null,
+      donnees:null,
+      affiche:false
     };
   },
   methods: {
+  ok(){this.affiche=true;},
     loc() {
       Geolocation.enableLocationRequest(true).then(() => {
         Geolocation.isEnabled().then(isLocationEnabled => {
@@ -73,7 +108,8 @@ export default {
           // MUST pass empty object!!
           Geolocation.getCurrentLocation({})
             .then(result => {
-              alert(result.latitude + " " + result.longitude);
+            this.location=result;
+              
             })
             .catch(e => {
               console.log("loc error", e);
@@ -146,7 +182,7 @@ export default {
       const key = "5b8d8ddf5f51b132601bd919362ebdbb";
       let urlApi = "https://api.imgbb.com/1/upload?key=" + key;
       let path = img.src._android;
-
+         this.loc();
       const request = {
         url: urlApi,
         method: "POST",
@@ -161,13 +197,63 @@ export default {
           name: "image",
           filename: path,
           mimeType: "img/jpeg",
-          localisation: "Nancy"
+         
         }
       ];
 
+            this.imagesprises.push(img);
+   this.images.splice(img);
       const task = session.multipartUpload(params, request);
-    }
-  }
+  task.on("responded", (e) => {
+ // console.log(JSON.parse(e.data));
+this.donnees = JSON.parse(e.data);
+
+this.url=this.donnees.data.url;
+console.log(this.url);
+
+ axios({
+        method: "post",
+        url: "http://geogatotor.pagekite.me/photo",
+        data: {
+    "desc": this.name,
+    "positionX": this.location.longitude,
+    "positionY": this.location.latitude,
+    "url": this.url
+}
+      })
+        .then(result => {
+    
+         // console.log(result);
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => {this.affiche=false;});
+
+});
+   
+  
+    },
+lololo(){   
+ axios({
+        method: "GET",
+        url: "http://geogatotor.pagekite.me/serie",
+      
+      })
+        .then(result => {
+        this.Series=result.data.series;
+        console.log(result.data.series);
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => {});
+
+}
+  },mounted(){
+  this.lololo();
+  
+}
 };
 </script>
 <style>

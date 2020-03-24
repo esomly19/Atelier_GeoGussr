@@ -1,10 +1,9 @@
 import Vue from "nativescript-vue";
 
-//import LoginPage from "./components/LoginPage";
-import Home from "./components/Home";
+import Login from "./components/LoginPage";
 // Uncommment the following to see NativeScript-Vue output logs
 // Vue.config.silent = false;
 
 new Vue({
-    render: h => h("frame", [h(Home)])
+    render: h => h("frame", [h(Login)])
 }).$start();
