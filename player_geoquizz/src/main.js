@@ -7,11 +7,12 @@ import 'leaflet/dist/leaflet.css';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal';
 import ProgressBar from 'vuejs-progress-bar'
+import axios from 'axios'
 
 Vue.use(VueRouter)
 Vue.use(VModal, { dynamic: true, dynamicDefaults: { clickToClose: false }})
 Vue.use(ProgressBar)
-
+Vue.use(axios)
 const router = new VueRouter({
   mode: "history",
 
