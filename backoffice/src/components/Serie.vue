@@ -12,15 +12,25 @@
         </div>
       </div>
     </div>
-    <modal :width="1200" :height="500" name="ok">
-      <AddPhoto></AddPhoto>
+    <modal :width="500" :height="500" name="add">
+      <button id="x" v-on:click="hide">X</button><AddPhoto></AddPhoto>
     </modal>
   </div>
 </template>
 
 <script>
 import AddPhoto from "./AddPhoto";
-export default { components: { AddPhoto } };
+export default {
+  components: { AddPhoto },
+  methods: {
+    show() {
+      this.$modal.show("add");
+    },
+    hide() {
+      this.$modal.hide("add");
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
