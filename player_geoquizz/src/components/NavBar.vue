@@ -11,7 +11,7 @@
         <router-link to="/"><a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a></router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Classement</a>
+        <a class="nav-link" href="/classement">Classement</a>
       </li>
     </ul>
   </div>

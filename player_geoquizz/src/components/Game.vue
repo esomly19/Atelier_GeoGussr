@@ -3,11 +3,19 @@
       <div class="row game">
     
       <maps class="col-8" v-on:submitResult="submitR" :x="coordX" :y="coordY" :refs="map_refs"></maps>
-      <picture-to-find :urlPicture="url" class="col-4"></picture-to-find>
-      <score :D="distanceForWin" :t="time" v-on:next="nextPicture"></score>
+      <div class="col-4">
+        <div class="card">
+            <picture-to-find :urlPicture="url"></picture-to-find>
+            <div class="card-body">
+              <score :D="distanceForWin" :t="time" v-on:next="nextPicture" :v="ville" :nbPhoto="nb_photo" v-on:score="setScore" v-on:time="setTime"></score>
+            </div>
+            </div>
+      </div>
+      <timer v-on:timeForResponse="getTime" :stopTime="stop" v-on:loseBytime="nextPicture"></timer>
+      <end-game :score="scoreFinal" :tm="avgTime" :ville="ville" :name="pseudo" v-on:end="end"></end-game>
       
     </div>
-    <timer v-on:timeForResponse="getTime" :stopTime="stop" v-on:loseBytime="nextPicture"></timer>
+    
     
     
   </div>    
@@ -17,6 +25,8 @@ import Maps from './Maps.vue'
 import PictureToFind from "./PictureToFind.vue"
 import Score from "./Score.vue"
 import Timer from "./Timer.vue"
+import EndGame from "./EndGame.vue"
+
 import axios from 'axios'
 
 export default {
@@ -25,7 +35,9 @@ export default {
     Maps,
     PictureToFind,
     Score,
-    Timer
+    Timer,
+    EndGame
+    
   },
   data() {
       return {
@@ -42,6 +54,9 @@ export default {
           currentPhoto: 0,
           coordX: "",
           coordY: "",
+          scoreFinal: 0,
+          avgTime: 0
+
       }
     },
 
@@ -59,16 +74,31 @@ export default {
         },
         submitR(d) {
           this.stop = true
-          setTimeout(() => this.showModal(d), 100)
-          
+          setTimeout(() => this.showModal(d), 200)
         },
         nextPicture() {
           this.currentPhoto += 1
-          this.url = this.MesPhotos[this.currentPhoto]['url']
-          this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
-          this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
-          
-          this.stop = false
+          if(this.currentPhoto >= this.nb_photo) {
+            this.$modal.show("endgame", {draggable: true})
+          }else{
+            this.url = this.MesPhotos[this.currentPhoto]['url']
+            this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
+            this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
+            this.stop = false
+          }
+        },
+
+        setTime(event){
+          this.avgTime = event
+        },
+
+        setScore(event) {
+          this.scoreFinal = event
+        },
+
+        end(){
+          axios.put("https://geogassur.pagekite.me/updatePartie", {token: this.token, score: this.scoreFinal})
+          this.$router.push({ path: '/'})
         },
 
         showModal(d) {
@@ -87,7 +117,7 @@ export default {
                 this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
                 this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
                 this.map_refs = res.data.map_refs
-                this.pseudo = res.data.name
+                
             })
     },
 }

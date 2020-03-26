@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card-body">
         <h3>Localiser cette photo : </h3>
         <img :src="urlPicture" style="width: 45%">
     </div>
