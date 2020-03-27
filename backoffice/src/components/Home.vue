@@ -4,7 +4,7 @@
     <Button type="button" class="btn btn-primary" v-on:click="show"
       >Ajouter des photos</Button
     >
-    <Button type="button" class="btn btn-primary">Créer une série</Button>
+   
 
     <modal :width="1200" :height="500" name="ok">
       <button id="x" v-on:click="hide">X</button>
@@ -135,6 +135,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 h3 {
   margin: 40px 0 0;
 }

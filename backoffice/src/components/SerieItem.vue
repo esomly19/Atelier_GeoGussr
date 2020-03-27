@@ -1,11 +1,11 @@
 <template>
-  <GridLayout colums="200, *">
-    <Label col="1" :text="lolo.ville"></Label>
-  </GridLayout>
+
+    <div  :text="Serie.serie.ville">ok</div>
+
 </template>
 <script>
 export default {
-  props: ["lolo"],
+  props: ["Serie"],
 
   data: function() {
     return {};
