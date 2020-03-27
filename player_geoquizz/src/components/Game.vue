@@ -1,8 +1,8 @@
 <template>
   <div>
+  <timer v-on:timeForResponse="getTime" :stopTime="stop" v-on:loseBytime="nextPicture"></timer>
       <div class="row game">
-    
-      <maps class="col-8" v-on:submitResult="submitR" :x="coordX" :y="coordY" :refs="map_refs"></maps>
+      <maps class="col-8" v-on:submitResult="submitR" :x="x" :y="coordY" :refs="map_refs"></maps>
       <div class="col-4">
         <div class="card">
             <picture-to-find :urlPicture="url"></picture-to-find>
@@ -11,7 +11,6 @@
             </div>
             </div>
       </div>
-      <timer v-on:timeForResponse="getTime" :stopTime="stop" v-on:loseBytime="nextPicture"></timer>
       <end-game :score="scoreFinal" :tm="avgTime" :ville="ville" :name="pseudo" v-on:end="end"></end-game>
       
     </div>
@@ -44,7 +43,7 @@ export default {
           url: "",
           distanceForWin: 200,
           time: 0,
-          stop: false,
+          stop: true,
           token: this.$route.params.token,
           ville: "",
           map_refs:"",
@@ -65,7 +64,9 @@ export default {
     },
 
     computed: {
-      
+      x() {
+        return this.coordX
+      }
     },
     methods: {
         getTime(e) {
@@ -74,7 +75,7 @@ export default {
         },
         submitR(d) {
           this.stop = true
-          setTimeout(() => this.showModal(d), 200)
+          setTimeout(() => this.showModal(d), 400)
         },
         nextPicture() {
           this.currentPhoto += 1
@@ -82,9 +83,12 @@ export default {
             this.$modal.show("endgame", {draggable: true})
           }else{
             this.url = this.MesPhotos[this.currentPhoto]['url']
-            this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
-            this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
-            this.stop = false
+            setTimeout(() => {
+              this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
+              this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
+              this.stop = false
+            }, 500)
+            
           }
         },
 
@@ -113,10 +117,15 @@ export default {
                 this.MesPhotos = res.data.photos
                 this.nb_photo = res.data.nb_photo
                 this.pseudo = res.data.name
-                this.url = this.MesPhotos[this.currentPhoto]['url']
-                this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
-                this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
                 this.map_refs = res.data.map_refs
+                this.url = this.MesPhotos[this.currentPhoto]['url']
+                setTimeout(() => {
+                  this.coordX = this.MesPhotos[this.currentPhoto]['positionX']
+                  this.coordY = this.MesPhotos[this.currentPhoto]['positionY']
+                  this.stop = false
+                  console.log("nothing append")
+                }, 1000)
+                
                 
             })
     },

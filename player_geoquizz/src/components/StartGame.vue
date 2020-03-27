@@ -6,6 +6,14 @@
             <h3>Votre pseudo : </h3>
             <input type="text" v-model="pseudo">
             <small class="text-muted">Permet d'établir votre classement</small>
+            <div class="dropdown">
+                <p>Vous pouvez sélectionner une ville</p>
+                <select class="custom-select" v-model="v">
+                    <option selected>Sélectionner une ville</option>
+                    <option v-for="ville in villes" :key="ville.id" :value="ville.ville" >{{ville.ville}}</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary p-2 mt-2" v-on:click="start">Commencer</button>
         </div>
     </div>
@@ -18,8 +26,9 @@ export default {
   data() {
       return {
          token: "",
-         pseudo: ""
-
+         v: "Sélectionner une ville",
+         pseudo: "",
+         villes: "",
       }
     },
 
@@ -29,12 +38,21 @@ export default {
 
     methods: {
         start() {
-            axios.post("https://geogassur.pagekite.me/createPartie", {name: this.pseudo}).then(res => {
-                console.log(res.data)
+            if(this.v === "Sélectionner une ville") {
+                this.v = null
+            }
+            axios.post("https://geogassur.pagekite.me/createPartie", {name: this.pseudo, ville: this.v}).then(res => {
+                
                 this.token = res.data
                 this.$router.push({ path: '/game/'+this.token})
             })
         }
+    },
+
+    created() {
+        axios.get("https://geogassur.pagekite.me/getVilles").then(res => {
+            this.villes = res.data
+        })
     },
 }
 </script>
