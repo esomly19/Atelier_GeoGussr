@@ -1,28 +1,40 @@
 <template>
     <div>
-        <modal name="Score" @before-open="beforeOpen" @before-close="beforeClose" :clickToClose="false" :width="450" :height="450">
-            <div class="card">
-                <img class="card-img-top" src="../assets/gps.jpg" style="width: 4rem;">
+        <div>
+            <div class="card text-white bg-info">
+                <div class="card-header">Information sur la partie</div>
                 <div class="card-body">
-                    <h1 class="card-title">Information</h1>
-                    <h2>Nancy</h2>
-                    <h3 v-if="!metreOrKm">{{distance}} m</h3>
-                    <h3 v-else>{{distance}} Km</h3>
-                    <h2>Votre temps : {{t}}</h2>
-                    <h2>Point  pour la distance : {{pointDistance}}</h2>
-                    <h2>Score multiplié par : {{multiplicateur}}</h2>
-                    <h3>Total : {{pointTotal}}</h3>
+                    <h5 class="card-title">Ville : {{v}}</h5>
+                    <p class="card-text">Votre score : {{totalScore}}</p>
+                    <p>Temps moyen : {{moyenneTemps}} s</p>
+                    <p>photos restantes : {{nbScore}} / {{nbPhoto}}</p>
+                </div>
+            </div>
+        </div>
+        <modal name="Score" @before-open="beforeOpen" @before-close="beforeClose" :clickToClose="false" :width="450" :height="400">
+            <div class="card text-white bg-success">
+                <h2 class="card-header">Information</h2>
+                <div class="card-body">
+                    <h3 class="card-title">{{v}}</h3>
+                    <p v-if="!metreOrKm">{{distance}} m</p>
+                    <p v-else>{{distance}} Km</p>
+                    <p>Votre temps : {{t}}</p>
+                    <p>Point  pour la distance : {{pointDistance}}</p>
+                    <p>Score multiplié par : {{multiplicateur}}</p>
+                    <p>Total : {{pointTotal}}</p>
                     <button class="btn btn-primary" v-on:click="next">Continuer</button>
                 </div>
             </div>
         </modal>
+
+        
     </div>
 </template>
 <script>
 
 export default {
   name: 'Score',
-  props: ['D', 't'],
+  props: ['D', 't', 'v', 'nbPhoto'],
   data() {
       return {
           distance: "",
@@ -30,7 +42,11 @@ export default {
           pointDistance: 0,
           pointTemps: 0,
           pointTotal: 0,
-          multiplicateur: 0
+          multiplicateur: 0,
+          totalScore: 0,
+          moyenneTemps: 0,
+          nbScore: 0,
+          tempsTotal:0
           
       }
     },
@@ -46,7 +62,8 @@ export default {
         },
         beforeOpen(event) {
             this.distance = event.params.distance
-            
+            this.tempsTotal += this.t
+            this.nbScore += 1
             if((this.distance*1000) < this.D) {
                this.pointDistance = 5
             }else {
@@ -80,10 +97,15 @@ export default {
                this.distance = Math.round(this.distance*1000)
                this.metreOrKm = false
            } 
+           
+           this.totalScore += this.pointTotal
         },
 
         beforeClose() {
-            console.log("not yet done")
+            this.moyenneTemps = this.tempsTotal/this.nbScore
+            this.moyenneTemps = Math.round(this.moyenneTemps*100)/100
+            this.$emit('score', this.totalScore)
+            this.$emit('time', this.moyenneTemps)
         }
     },
 }

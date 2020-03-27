@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <l-map style="height: 45rem" :zoom="zoom" :center="center"  :minZoom="zoom" :markerZoomAnimation="true" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
+    <div class="card-body">
+        <l-map style="height: 40rem" :zoom="zoom" :center="center"  :minZoom="zoom" :markerZoomAnimation="true" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
             
             <l-tile-layer :url="url"></l-tile-layer>
             <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable"></l-marker>
@@ -53,7 +53,7 @@ export default {
           dist: 0,
           distM: 0,
           end: false,
-          launch: setTimeout(this.initialisation, 500),
+          launch: setTimeout(this.initialisation, 600),
           icon: icon({
               iconUrl: "/assets/compass.png",
               iconSize: [32,37],
@@ -100,12 +100,10 @@ export default {
        },
 
        initialisation() {
-           console.log("Initi")
            this.center = [this.refs.positionX, this.refs.positionY]
            this.zoom = this.refs.zoom
            this.marker.position.lat = this.refs.positionX
            this.marker.position.lng = this.refs.positionY
-           
        }
     },
     

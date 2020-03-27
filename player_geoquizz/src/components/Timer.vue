@@ -50,30 +50,6 @@ export default {
 
     methods: {
         upTime() {
-          /**console.log(this.stopTime)
-          if(this.stopTime !== false){
-            if(this.c) {
-              this.startTimer = setInterval(this.upTime, 250)
-              this.c = false
-            }
-            if(this.time < 20) {
-                this.time += 0.25
-                this.value += 1.25 
-            }else{
-                this.$emit('loseBytime')
-                this.$emit('timeForResponse', this.time)
-                this.time = 0
-                this.value = 0
-            }
-          }else{
-            console.log("submit current time : "+this.time)
-            this.$emit('timeForResponse', this.time)
-            clearInterval(this.startTime)
-            this.c = true
-            this.time = 0
-            this.value = 0
-          }
-          */
           if(this.stopTime) {
             this.$emit('timeForResponse', this.time)
             this.restart = true
@@ -87,10 +63,7 @@ export default {
                 }
             }
         },
-
-
         startTime() {
-          console.log('restart time')
           clearInterval(this.startTimer)
           this.time = 0
           this.value = 0
