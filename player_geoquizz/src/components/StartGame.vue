@@ -45,6 +45,8 @@ export default {
                 
                 this.token = res.data
                 this.$router.push({ path: '/game/'+this.token})
+            }).catch(err => {
+                console.log(err)
             })
         }
     },
@@ -52,6 +54,8 @@ export default {
     created() {
         axios.get("https://geogassur.pagekite.me/getVilles").then(res => {
             this.villes = res.data
+        }).catch(err => {
+            console.log(err)
         })
     },
 }

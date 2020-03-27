@@ -2,7 +2,7 @@
   <div>
   <timer v-on:timeForResponse="getTime" :stopTime="stop" v-on:loseBytime="nextPicture"></timer>
       <div class="row game">
-      <maps class="col-8" v-on:submitResult="submitR" :x="x" :y="coordY" :refs="map_refs"></maps>
+      <maps class="col-8" v-on:submitResult="submitR" :x="coordX" :y="coordY" :refs="map_refs"></maps>
       <div class="col-4">
         <div class="card">
             <picture-to-find :urlPicture="url"></picture-to-find>
@@ -64,9 +64,7 @@ export default {
     },
 
     computed: {
-      x() {
-        return this.coordX
-      }
+      
     },
     methods: {
         getTime(e) {
@@ -101,7 +99,9 @@ export default {
         },
 
         end(){
-          axios.put("https://geogassur.pagekite.me/updatePartie", {token: this.token, score: this.scoreFinal})
+          axios.put("https://geogassur.pagekite.me/updatePartie", {token: this.token, score: this.scoreFinal}).catch(err => {
+            console.log(err)
+          })
           this.$router.push({ path: '/'})
         },
 
@@ -127,6 +127,8 @@ export default {
                 }, 1000)
                 
                 
+            }).catch(err => {
+              alert('une err survenu : '+err)
             })
     },
 }

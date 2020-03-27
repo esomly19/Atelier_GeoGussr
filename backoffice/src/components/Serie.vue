@@ -2,7 +2,7 @@
   <div class="app">
     <h1>Serie</h1>
 
-    <div class="conatiner">
+    <div class="conatiner flex">
       <div class="wrap">
         <SerieList :Series="Series" />
         <div class="box one">
@@ -10,6 +10,13 @@
         
             <h4 v-on:click="show">+</h4>
             <!-- -->
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="box two">
+          <div class="poster p2">
+            <h4 v-on:click="modifier">📝</h4>
           </div>
         </div>
       </div>
@@ -36,22 +43,25 @@ data() {
     hide() {
       this.$modal.hide("add");
     },
-lololo(){   
- axios({
-        method: "GET",
-        url: "http://geogatotor.pagekite.me/serie",
-      
-      })
-        .then(result => {
-        this.Series=result.data.series;
-        console.log(result.data.series);
-        })
-        .catch(err => {
-          console.error(err.message);
-        })
-        .finally(() => {});
+    modifier() {
+      this.$router.push({ path: '/configuerSerie'})
+    },
+    lololo(){   
+      axios({
+              method: "GET",
+              url: "http://geogatotor.pagekite.me/serie",
+            
+            })
+              .then(result => {
+              this.Series=result.data.series;
+              console.log(result.data.series);
+              })
+              .catch(err => {
+                console.error(err.message);
+              })
+              .finally(() => {});
 
-}
+    }
   },
 mounted(){
  this.lololo();

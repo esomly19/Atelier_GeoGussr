@@ -62,7 +62,6 @@ export default {
          searchContaint: "Votre nom",
          src: false,
          findplayers: "",
-         i: null - 1700
       }
     },
 
@@ -77,11 +76,9 @@ export default {
                 this.findplayers = {classement: 0,
                                     joueur: "pas de joueurs",
                                     score: "0",
-                                    ville: "0"}
-                console.log(this.findplayers)                    
+                                    ville: "0"}               
             }else{
                 axios.get("https://geogassur.pagekite.me/getPlayerScore?name="+this.searchContaint).then(rep => {
-                    console.log(rep.data)
                     this.findplayers = rep.data
                 })
             }
@@ -95,6 +92,8 @@ export default {
     created() {
         axios.get("https://geogassur.pagekite.me/getScore").then(res => {
             this.listeScores = res.data.scores
+        }).catch(err => {
+            console.log(err)
         })
     }
 }
