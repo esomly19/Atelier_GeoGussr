@@ -4,8 +4,10 @@
 
     <div class="conatiner">
       <div class="wrap">
+        <SerieList :Series="Series" />
         <div class="box one">
           <div class="poster p1">
+        
             <h4 v-on:click="show">+</h4>
             <!-- -->
           </div>
@@ -19,17 +21,41 @@
 </template>
 
 <script>
+import axios from "axios";
+import SerieList from "./SerieList";
 import AddPhoto from "./AddPhoto";
 export default {
-  components: { AddPhoto },
+  components: { AddPhoto , SerieList },
+data() {
+    return {
+     Series: []};},
   methods: {
     show() {
       this.$modal.show("add");
     },
     hide() {
       this.$modal.hide("add");
-    }
-  }
+    },
+lololo(){   
+ axios({
+        method: "GET",
+        url: "http://geogatotor.pagekite.me/serie",
+      
+      })
+        .then(result => {
+        this.Series=result.data.series;
+        console.log(result.data.series);
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => {});
+
+}
+  },
+mounted(){
+ this.lololo();
+}
 };
 </script>
 

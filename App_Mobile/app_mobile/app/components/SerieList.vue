@@ -1,7 +1,7 @@
 <template>
-  <ListView for="Serie in Series" @itemTap="onItemTap">
+  <ListView for="lul in Series" @itemTap="onItemTap">
     <v-template>
-      <Serie :Serie="Serie"></Serie>
+      <Serie :lolo="lul"></Serie>
     </v-template>
   </ListView>
 </template>
@@ -15,9 +15,11 @@ export default {
   props: ["Series"],
 
   methods: {
-    onItemTap(args) {
+    onItemTap(args) { 
+ console.log(args);
       this.$navigateTo(Detail, {
-        props: { serie: args.Serie }
+ 
+        props: { soro: args.item }
       });
     }
   }
@@ -25,3 +27,4 @@ export default {
 
 };
 </script>
+  
