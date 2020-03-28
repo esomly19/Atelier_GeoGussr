@@ -4,7 +4,9 @@
 
     <div class="conatiner flex">
       <div class="wrap">
-        <SerieList :Series="Series" />
+      <div v-for=" so in Series" v-bind:key="so.serie.id">
+        <SerieItem :soro="so" />
+  </div>
         <div class="box one">
           <div class="poster p1">
         
@@ -19,7 +21,12 @@
           </div>
         </div>
       </div>
+  <nav>
+  <Button  v-on:click="previousPage()">previous</Button>
+  <Button v-on:click="nextPage()">next</Button>
+</nav>
     </div>
+
     <modal :width="500" :height="500" name="add">
       <button id="x" v-on:click="hide">X</button><AddPhoto></AddPhoto>
     </modal>
@@ -28,13 +35,17 @@
 
 <script>
 import axios from "axios";
-import SerieList from "./SerieList";
+import SerieItem from "./SerieItem";
 import AddPhoto from "./AddPhoto";
 export default {
-  components: { AddPhoto , SerieList },
+  components: { AddPhoto , SerieItem },
 data() {
     return {
-     Series: []};},
+     Series: "",      
+    page:1,
+      size:10,
+      numberofpages:0,
+      count:0};},
   methods: {
     show() {
       this.$modal.show("add");
@@ -45,25 +56,32 @@ data() {
     modifier() {
       this.$router.push({ path: '/configuerSerie'})
     },
-    lololo(){   
-      axios({
-              method: "GET",
-              url: "http://geogatotor.pagekite.me/serie",
-            
+     nextPage(){
+if((this.page+1) >this.numberofpages){
+this.page=this.numberofpages;}else{
+  this.page++;}
+  this.searchSeries();
+},
+  previousPage(){
+  if((this.page-1) <1){
+  this.page=1;}else{this.page--;}
+   this.searchSeries();
+}, searchSeries(){
+  axios.get("http://geogatotor.pagekite.me/serie?page="+this.page+"&size=10").then(res => {
+                this.Series = res.data.series
+                 this.count=res.data.count;
+              this.numberofpages =res.data.nbpage;
+                console.log(res.data.series)
+            }).catch(err => {
+              alert('une err survenu : '+err)
             })
-              .then(result => {
-              this.Series=result.data.series;
-              console.log(result.data.series);
-              })
-              .catch(err => {
-                console.error(err.message);
-              })
-              .finally(() => {});
-
-    }
+}
   },
+  created() {
+      
+    },
 mounted(){
- this.lololo();
+this.searchSeries();
 }
 };
 </script>
