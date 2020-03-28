@@ -23,12 +23,9 @@
             <Button text="Take Picture" @tap="takePicture" />
             <Button text="Choose Picture" @tap="selectPicture" />
             <Label> Images prises :</Label>
-	<WrapLayout v-for="img in images">
-				<Image  :src="img.src" width="75" height="75" />
-  <TextField v-model="name"  @returnPress="ok" hint="Description de la photo"></TextField>
-				<Button :isEnabled="affiche" text="Upload" @tap="upload(img)" />
-			</WrapLayout>
 
+
+    <ImagesList :Imgli="images" />
 
 
           </StackLayout>
@@ -38,15 +35,10 @@
         <GridLayout>
           <StackLayout>
             <Label text="Création d'une série" class="h2 text-center"></Label>
-            <Button @tap="onAddTap"> Créer une série </Button>
-
-        
-
-  <Label> Images prises et déja envoyé:</Label>
-	<WrapLayout v-for="img in imagesprises">
-				<Image  :src="img.src" width="75" height="75" />
-			</WrapLayout>
+           
+<Button @tap="onAddTap"> Créer une série </Button>
      </StackLayout>
+
    </GridLayout>
       </TabContentItem>
       <TabContentItem>
@@ -68,21 +60,21 @@
 
 <script>
 import * as camera from "nativescript-camera";
+import ImagesList from "./ImagesList";
 import createSerie from "./CreateSerie";
 import SerieList from "./SerieList";
 import * as imagepicker from "nativescript-imagepicker";
 import * as Geolocation from "nativescript-geolocation";
 import { Image } from "tns-core-modules/ui/image";
 import axios from "axios";
-const bghttp = require("nativescript-background-http");
 
-const session = bghttp.session("image-upload");
+
 
 export default {
-  components: { createSerie, SerieList },
+  components: { createSerie, SerieList, ImagesList },
   data() {
     return {
-name: "",
+      finds: [],
       images: [],
       imagesprises: [],
       series: [],
@@ -90,6 +82,7 @@ name: "",
       locationFailure: false,
       location: null,
       Series: [],
+      PhoSerie: [],
       url: null,
       donnees:null,
       affiche:false
@@ -97,26 +90,6 @@ name: "",
   },
   methods: {
   ok(){this.affiche=true;},
-    loc() {
-      Geolocation.enableLocationRequest(true).then(() => {
-        Geolocation.isEnabled().then(isLocationEnabled => {
-          if (!isLocationEnabled) {
-            // potentially do more then just end here...
-            return;
-          }
-
-          // MUST pass empty object!!
-          Geolocation.getCurrentLocation({})
-            .then(result => {
-            this.location=result;
-              
-            })
-            .catch(e => {
-              console.log("loc error", e);
-            });
-        });
-      });
-    },
     onAddTap() {
       const newId = new Date().getTime();
       this.$showModal(createSerie, { props: { id: newId } }).then(newItem => {
@@ -125,6 +98,10 @@ name: "",
         }
       });
     },
+    AjoutSerie(img){
+this.PhoSerie.push(img);
+this.imagesprises.splice(img);
+},Retirer(img){},
     createSerie() {
       this.$navigateTo(createSerie);
     },
@@ -165,9 +142,10 @@ name: "",
             .then(imageAsset => {
               let img = new Image();
               img.src = imageAsset;
+              this.finds.push({ value: 'd' });
               this.images.push(img);
               console.log("ive got " + this.images.length + " images now.");
-              this.loc();
+        
             })
             .catch(e => {
               console.log("error:", e);
@@ -178,62 +156,7 @@ name: "",
         });
     },
     ajouterAseries() {},
-    upload(img) {
-      const key = "5b8d8ddf5f51b132601bd919362ebdbb";
-      let urlApi = "https://api.imgbb.com/1/upload?key=" + key;
-      let path = img.src._android;
-         this.loc();
-      const request = {
-        url: urlApi,
-        method: "POST",
-        headers: {
-          "Content-type": "application/octet-stream"
-        },
-        description: "Uploading"
-      };
 
-      const params = [
-        {
-          name: "image",
-          filename: path,
-          mimeType: "img/jpeg",
-         
-        }
-      ];
-
-            this.imagesprises.push(img);
-   this.images.splice(img);
-      const task = session.multipartUpload(params, request);
-  task.on("responded", (e) => {
- // console.log(JSON.parse(e.data));
-this.donnees = JSON.parse(e.data);
-
-this.url=this.donnees.data.url;
-console.log(this.url);
-
- axios({
-        method: "post",
-        url: "http://geogatotor.pagekite.me/photo",
-        data: {
-    "desc": this.name,
-    "positionX": this.location.longitude,
-    "positionY": this.location.latitude,
-    "url": this.url
-}
-      })
-        .then(result => {
-    
-         // console.log(result);
-        })
-        .catch(err => {
-          console.error(err.message);
-        })
-        .finally(() => {this.affiche=false;});
-
-});
-   
-  
-    },
 lololo(){   
  axios({
         method: "GET",

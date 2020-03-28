@@ -1,7 +1,8 @@
 <template>
-  <GridLayout colums="200, *">
+  <GridLayout colums="200, *" rows="*,*">
     
-    <Image :src="lolo.url"></Image>
+    <Image row="0":src="lolo.url"></Image>
+    <Label row="1" :text="lolo.desc"></Label>
   </GridLayout>
 </template>
 <script>
