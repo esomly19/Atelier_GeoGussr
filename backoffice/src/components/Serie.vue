@@ -4,16 +4,10 @@
 
     <div class="conatiner flex">
       <div class="wrap">
-      <div v-for=" so in Series" v-bind:key="so.serie.id">
+      <div v-for=" so in Series" v-bind:key="so.id">
         <SerieItem :soro="so" />
   </div>
-        <div class="box one">
-          <div class="poster p1">
-        
-            <h4 v-on:click="show">+</h4>
-            <!-- -->
-          </div>
-        </div>
+
 
         <div class="box two">
           <div class="poster p2">
@@ -67,7 +61,7 @@ this.page=this.numberofpages;}else{
   this.page=1;}else{this.page--;}
    this.searchSeries();
 }, searchSeries(){
-  axios.get("http://geogatotor.pagekite.me/serie?page="+this.page+"&size=10").then(res => {
+  axios.get("http://geogatotor.pagekite.me/serie?page="+this.page+"&size=9").then(res => {
                 this.Series = res.data.series
                  this.count=res.data.count;
               this.numberofpages =res.data.nbpage;
