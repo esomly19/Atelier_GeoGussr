@@ -128,6 +128,7 @@ export default {
 
         updateMarker(c) {
             console.log(c)
+            console.log('je veux que ça marche')
         },
         save() {
             axios.put("http://geogatotor.pagekite.me/serie/"+this.id, {ville: this.city, dist: this.distance, maps_ref: {zoom: this.zoom, positionX:this.positionCentre.lat, positionY: this.positionCentre.lng}})
