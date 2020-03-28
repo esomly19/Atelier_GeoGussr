@@ -24,7 +24,7 @@
             <div class="input-group">
                 <label class="input-group-text">Distance  </label><input type="number"  v-model.number="distance"/>
             </div>
-            <button class="btn btn-primary">Enregistrer les modifications</button>
+            <button class="btn btn-primary" v-on:click="save">Enregistrer les modifications</button>
         </div>
         </div>
         </div>
@@ -74,7 +74,8 @@ export default {
               iconSize: [32,37],
               iconAnchor: [16,37]
           }),
-          distance:0
+          distance:0,
+          id: ""
       }
     },
 
@@ -96,6 +97,7 @@ export default {
             this.ville = "#"+serie.serie.id+"-"+serie.serie.ville
             this.photos = this.getPhotofromSerie(serie.links.photos.href)
             this.distance = serie.serie.dist
+            this.id = serie.serie.id
         },
 
         getPhotofromSerie(url) {
@@ -126,6 +128,11 @@ export default {
 
         updateMarker(c) {
             console.log(c)
+        },
+        save() {
+            axios.put("http://geogatotor.pagekite.me/serie/"+this.id, {ville: this.city, dist: this.distance, maps_ref: {zoom: this.zoom, positionX:this.positionCentre.lat, positionY: this.positionCentre.lng}})
+            .then(res => console.log(res.data))
+            .catch(err => alert(console.log(err)))
         }
         
     },
