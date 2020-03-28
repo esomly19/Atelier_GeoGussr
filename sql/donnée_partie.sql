@@ -1,7 +1,7 @@
 
 INSERT INTO `serie` (`ville`,`map_refs`,`dist`)
 VALUES
-('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',50),
+('Nancy','{"positionX":48.6890,"positionY":6.1738,"zoom":13}',100),
 ('Paris','{"positionX":48.856614,"positionY":2.352222,"zoom":13}',500),
 ('Lyon','{"positionX":45.764043,"positionY":4.835659,"zoom":13}',200),
 ('Brest','{"positionX":48.390394,"positionY":-4.486076,"zoom":13}',100);
