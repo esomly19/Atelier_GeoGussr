@@ -131,7 +131,11 @@ export default {
             console.log('je veux que ça marche')
         },
         save() {
-            axios.put("http://geogatotor.pagekite.me/serie/"+this.id, {ville: this.city, dist: this.distance, maps_ref: {zoom: this.zoom, positionX:this.positionCentre.lat, positionY: this.positionCentre.lng}})
+            axios.put("http://geogatotor.pagekite.me/serie/"+this.id,{
+    "ville": this.ville,
+    "map_refs": {"positionX":this.positionCentre.lat,"positionY":this.positionCentre.lng,"zoom":this.zoom},
+    "dist": this.distance
+})
             .then(res => console.log(res.data))
             .catch(err => alert(console.log(err)))
         }
