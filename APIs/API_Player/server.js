@@ -20,13 +20,6 @@ app.use(
 
   const PORT = 3000;
   const HOST = "0.0.0.0"; 
-app.listen(PORT, HOST);
-console.log(`API Running on http://${HOST}:${PORT}`)
-
-
-
-
-
 
 app.get('/', function (req, res) {
     res.send('ça marche les potos')
@@ -351,19 +344,20 @@ app.get('/getVilles',(req,res)=>{
 
 
 const db = mysql.createConnection({
-    host: "mysql",
-    user: "com",
-    password: "com",
-    database: "com"
+    host: "db",
+    user: "root",
+    password: "root",
+    database: "geoquizz"
 });
 
 db.connect(err => {
     if (err) {
-        throw err;
+        return err;
     }
     console.log("Connected to database");
 })
-
+app.listen(PORT, HOST);
+console.log(`API Running on http://${HOST}:${PORT}`)
 
 // ------------------ GET ------------------
 app.get("*", (req, res) => {
