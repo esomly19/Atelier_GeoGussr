@@ -57,7 +57,7 @@ export default {
                     console.log(res.data)
                     localStorage.setItem('jwt',res.data.token)
                     console.log(localStorage)
-                    this.router.push({name:'Home'})
+                    this.$router.push({name:'Home'})
                  }).catch(err => {
                      this.$modal.show('err', {erreur: err})
                  })

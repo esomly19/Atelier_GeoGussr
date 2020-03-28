@@ -41,7 +41,7 @@ const router = new VueRouter({
     { path: "/connexion", component: Connexion, meta: { guest: true } },
     { path: "/creerCompte", component: CreerCompte, meta: { guest: true } },
     { path: "/detail:id", name: "detail", component: Detail, meta: { requiresAuth: true } },
-    { path: "/", component: Home },
+    { path: "/", name: "Home", component: Home },
     { path: "/Serie", component: Serie, meta: { requiresAuth: true } },
     { path: "/AddPhoto", component: AddPhoto, meta: { requiresAuth: true } },
     { path: "/Photos", component: Photos, meta: { requiresAuth: true } },
