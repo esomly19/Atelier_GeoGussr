@@ -68,6 +68,9 @@ export default {
   
   data() {
       return {
+          page:1,
+          size:10,
+          numberofpages:0,
           currentSeries: "",
           url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
           zoom: 13,
@@ -105,6 +108,34 @@ export default {
     computed: {
     },
     methods: {
+
+        previousPage(){
+        if((this.page-1) <1){
+            this.page=this.numberofpages;
+        }else{
+            this.page--;
+        }
+        this.searchSeries();
+        },
+
+        nextPage(){
+        if((this.page+1) >this.numberofpages){
+            this.page=this.numberofpages;
+        }else{
+            this.page++;
+        }
+        this.searchSeries();
+        },
+
+        searchSeries(){
+            axios.get("http://geogatotor.pagekite.me/serie?page="+this.page).then(res => {
+                this.currentSeries = res.data.series
+                console.log(res.data.series)
+                this.numberofpages =res.data.nbpage;
+            }).catch(err => {
+              alert('une err survenu : '+err)
+            })
+        },
     
         confSerie(serie) {
             console.log(serie)
@@ -185,7 +216,7 @@ const myObj = {
         data: {
           "ville": this.city,
           "map_refs": myObj,
-          "dist": this.distance
+          "dist": this.distance,
         }
       })
         .then(result => {
@@ -203,12 +234,7 @@ const myObj = {
     },
 
     created() {
-        axios.get("http://geogatotor.pagekite.me/serie").then(res => {
-                this.currentSeries = res.data.series
-                console.log(res.data.series)
-            }).catch(err => {
-              alert('une err survenu : '+err)
-            })
+        this.searchSeries();
     },
 }
 </script>
