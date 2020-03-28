@@ -2,9 +2,7 @@
     <div>
         <div class="d-flex flex-row">
         <div class="list-group">
-            <button type="button" class="list-group-item list-group-item-action"  v-on:click="previousPage()" >↑ </button>
-            <button type="button" class="list-group-item list-group-item-action" v-for="serie in currentSeries" :key="serie.id" v-on:click="confSerie(serie)">{{serie.serie.id}}#  {{serie.serie.ville}}</button>
-            <button type="button" class="list-group-item list-group-item-action"  v-on:click="nextPage()" >↓ </button>
+            <button type="button" class="list-group-item list-group-item-action" v-for="serie in currentSeries" :key="serie.id" v-on:click="confSerie(serie)">{{serie.id}}#  {{serie.ville}}</button>
             <button type="button" class="list-group-item list-group-item-action"  v-on:click="CreationSerie()" >Ajouter une série </button>
         </div>
             
@@ -141,17 +139,17 @@ export default {
     
         confSerie(serie) {
             console.log(serie)
-            this.zoom = serie.serie.map_refs.zoom
-            this.coordXCentre = serie.serie.map_refs.positionX
-            this.coordYCentre = serie.serie.map_refs.positionY
+            this.zoom = serie.map_refs.zoom
+            this.coordXCentre = serie.map_refs.positionX
+            this.coordYCentre = serie.map_refs.positionY
             this.center= {lat: this.coordXCentre, lng: this.coordYCentre}
             this.positionCentre.lat = this.coordXCentre
             this.positionCentre.lng = this.coordYCentre
-            this.ville = "#"+serie.serie.id+"-"+serie.serie.ville
-            this.city = serie.serie.ville
+            this.ville = "#"+serie.id+"-"+serie.ville
+            this.city = serie.ville
             this.photos = this.getPhotofromSerie(serie.links.photos.href)
-            this.distance = serie.serie.dist
-            this.id = serie.serie.id
+            this.distance = serie.dist
+            this.id = serie.id
             this.creation=false
         },
         CreationSerie(){
