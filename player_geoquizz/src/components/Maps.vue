@@ -3,7 +3,7 @@
         <l-map style="height: 40rem" :zoom="zoom" :center="center"  :minZoom="zoom" :markerZoomAnimation="true" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
             
             <l-tile-layer :url="url"></l-tile-layer>
-            <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable"></l-marker>
+            <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable" :icon="icon"></l-marker>
             <l-marker :lat-lng="PlaceToFind" :draggable="false" :visible="end"></l-marker>
             
         </l-map>
@@ -55,7 +55,7 @@ export default {
           end: false,
           launch: setTimeout(this.initialisation, 600),
           icon: icon({
-              iconUrl: "/assets/compass.png",
+              iconUrl: "https://image.flaticon.com/icons/svg/60/60834.svg",
               iconSize: [32,37],
               iconAnchor: [16, 37]
           })
