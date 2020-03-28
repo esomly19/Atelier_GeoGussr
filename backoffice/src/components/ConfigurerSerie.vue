@@ -16,6 +16,9 @@
         <div class="card-body">
             <h5 class="card-title">Configuration : </h5>
             <div class="input-group">
+                <label class="input-group-text">ville  </label><input type="text"  v-model="city"/>
+            </div>
+            <div class="input-group">
                 <label class="input-group-text">Zoom  </label><input type="number" max="15" min="0" v-model.number="zoom"/>
             </div>
             <div class="input-group">
@@ -75,7 +78,8 @@ export default {
               iconAnchor: [16,37]
           }),
           distance:0,
-          id: ""
+          id: "",
+          city: ""
       }
     },
 
@@ -95,6 +99,7 @@ export default {
             this.positionCentre.lat = this.coordXCentre
             this.positionCentre.lng = this.coordYCentre
             this.ville = "#"+serie.serie.id+"-"+serie.serie.ville
+            this.city = serie.serie.ville
             this.photos = this.getPhotofromSerie(serie.links.photos.href)
             this.distance = serie.serie.dist
             this.id = serie.serie.id
@@ -132,7 +137,7 @@ export default {
         },
         save() {
             axios.put("http://geogatotor.pagekite.me/serie/"+this.id,{
-    "ville": this.ville,
+    "ville": this.city,
     "map_refs": {"positionX":this.positionCentre.lat,"positionY":this.positionCentre.lng,"zoom":this.zoom},
     "dist": this.distance
 })
