@@ -1,20 +1,22 @@
 <template>
-    <div>
-        <l-map style="height: 50rem" :zoom="zoom" :center="center" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
+    <div class="card-body">
+        <l-map style="height: 40rem" :zoom="zoom" :center="center"  :minZoom="zoom" :markerZoomAnimation="true" attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'>
+            
             <l-tile-layer :url="url"></l-tile-layer>
-            <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable" v-on:click="setPosition()"></l-marker>
+            <l-marker :lat-lng.sync="marker.position" :draggable="marker.draggable"></l-marker>
             <l-marker :lat-lng="PlaceToFind" :draggable="false" :visible="end"></l-marker>
-            <l-circle :lat-lng="PlaceToFind" :radius="distM" v-if="dist !== 0"></l-circle>
+            
         </l-map>
         
-        <button v-on:click="submitLoc()" class="btn btn-primary">Valider</button>
+        <button v-on:click="submitLoc()" class="btn btn-primary myb">Valider</button>
     </div>  
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LCircle} from 'vue2-leaflet';
+import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
 
-import { Icon } from 'leaflet';
+import { Icon, icon } from 'leaflet';
+
 
 delete Icon.Default.prototype._getIconUrl;
 
@@ -30,27 +32,35 @@ export default {
       LMap,
       LTileLayer,
       LMarker,
-      LCircle
+      
+
+      
   },
+  props: ['x','y','refs'],
   data() {
       return {
-          map: null,
-          tileLayer: null,
-          layers: [],
           url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
           zoom: 13,
-          center: [48.6833, 6.2],
+          center: [this.x, this.y],
           marker: {
               id: 'm1',
-              position: { lat: 48.6833, lng: 6.2 },
+              position: { lat: this.x, lng: this.y},
               tooltip: 'tooltip for marker1',
               draggable: true,
               visible: true,
           },
-          PlaceToFind: { lat: 48.6833, lng: 6.2},
+          PlaceToFind: { lat: this.x, lng: this.y},
           dist: 0,
           distM: 0,
-          end: false
+          end: false,
+          launch: setTimeout(this.initialisation, 600),
+          icon: icon({
+              iconUrl: "/assets/compass.png",
+              iconSize: [32,37],
+              iconAnchor: [16, 37]
+          })
+          
+          
           
           
       }
@@ -58,10 +68,15 @@ export default {
 
     methods: {
        setPosition() {
-           console.log(this.marker.position)
+            this.PlaceToFind.lat = this.x
+            this.PlaceToFind.lng = this.y
+            this.end = true
        },
+        
+       
 
        submitLoc() {
+           this.setPosition()
            let lat1 = this.marker.position.lat
            let lng1 = this.marker.position.lng
            let lat2 = this.PlaceToFind.lat
@@ -80,15 +95,29 @@ export default {
            this.dist = this.dist * 1.609344
            this.distM = this.dist*1000
            this.end = true
-           this.$emit('submitResult')
-           this.$modal.show("Score", {distance: this.dist}, {draggable: true})
+           
+           this.$emit('submitResult', this.dist)
+       },
 
+       initialisation() {
+           this.center = [this.refs.positionX, this.refs.positionY]
+           this.zoom = this.refs.zoom
+           this.marker.position.lat = this.refs.positionX
+           this.marker.position.lng = this.refs.positionY
        }
     },
+    
 }
 </script>
 <style>
     l-map { height: 50rem; }
+    .myb {
+        margin-left: 22%;
+        margin-right: auto;
+        width: 45rem;
+        height:3em;
+        margin-top: 1%;
+    }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 

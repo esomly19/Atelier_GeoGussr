@@ -1,10 +1,33 @@
 <script>
+import axios from "axios";
 export default {
   name: "modal",
 
   methods: {
     close() {
       this.$emit("close");
+    },
+    add() {
+      axios({
+        method: "post",
+        url: "https://geogatotor.pagekite.me/serie",
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        },
+        data: {
+          "ville": "Salut totor",
+          "map_refs": "kkkkkkkkkkkk",
+          "dist": 150
+        }
+      })
+        .then(result => {
+          this.Reponse = result;
+          console.log(result);
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => {});
     }
   }
 };
@@ -12,31 +35,10 @@ export default {
 
 <template>
   <div class="modal-backdrop">
-    <div class="modal">
-      <header class="modal-header">
-        <slot name="header">
-          This is the default tile!
+    <h1>Création d'une série</h1>
 
-          <button type="button" class="btn-close" @click="close">
-            x
-          </button>
-        </slot>
-      </header>
-      <section class="modal-body">
-        <slot name="body">
-          I'm the default body!
-        </slot>
-      </section>
-      <footer class="modal-footer">
-        <slot name="footer">
-          I'm the default footer!
-
-          <button type="button" class="btn-green" @click="close">
-            Close me!
-          </button>
-        </slot>
-      </footer>
-    </div>
+  <input type="text" hint="nom de la série">
+    <button  v-on:click="add">AJOUT SERIE</button>
   </div>
 </template>
 
@@ -59,44 +61,5 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
-}
-
-.modal-header,
-.modal-footer {
-  padding: 15px;
-  display: flex;
-}
-
-.modal-header {
-  border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
-  justify-content: space-between;
-}
-
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  justify-content: flex-end;
-}
-
-.modal-body {
-  position: relative;
-  padding: 20px 10px;
-}
-
-.btn-close {
-  border: none;
-  font-size: 20px;
-  padding: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4aae9b;
-  background: transparent;
-}
-
-.btn-green {
-  color: white;
-  background: #4aae9b;
-  border: 1px solid #4aae9b;
-  border-radius: 2px;
 }
 </style>

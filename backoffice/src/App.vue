@@ -8,6 +8,9 @@
           <router-link class="nav-item nav-link" to="/Serie"
             >Series</router-link
           >
+        <router-link class="nav-item nav-link" to="/Photos"
+            >Photos</router-link
+          >
         </div>
       </div>
     </nav>

@@ -2,25 +2,71 @@
   <div class="app">
     <h1>Serie</h1>
 
-    <div class="conatiner">
+    <div class="conatiner flex">
       <div class="wrap">
+        <SerieList :Series="Series" />
         <div class="box one">
           <div class="poster p1">
+        
             <h4 v-on:click="show">+</h4>
             <!-- -->
           </div>
         </div>
       </div>
+      <div class="wrap">
+        <div class="box two">
+          <div class="poster p2">
+            <h4 v-on:click="modifier">📝</h4>
+          </div>
+        </div>
+      </div>
     </div>
-    <modal :width="1200" :height="500" name="ok">
-      <AddPhoto></AddPhoto>
+    <modal :width="500" :height="500" name="add">
+      <button id="x" v-on:click="hide">X</button><AddPhoto></AddPhoto>
     </modal>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import SerieList from "./SerieList";
 import AddPhoto from "./AddPhoto";
-export default { components: { AddPhoto } };
+export default {
+  components: { AddPhoto , SerieList },
+data() {
+    return {
+     Series: []};},
+  methods: {
+    show() {
+      this.$modal.show("add");
+    },
+    hide() {
+      this.$modal.hide("add");
+    },
+    modifier() {
+      this.$router.push({ path: '/configuerSerie'})
+    },
+    lololo(){   
+      axios({
+              method: "GET",
+              url: "http://geogatotor.pagekite.me/serie",
+            
+            })
+              .then(result => {
+              this.Series=result.data.series;
+              console.log(result.data.series);
+              })
+              .catch(err => {
+                console.error(err.message);
+              })
+              .finally(() => {});
+
+    }
+  },
+mounted(){
+ this.lololo();
+}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

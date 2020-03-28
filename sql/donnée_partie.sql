@@ -100,5 +100,5 @@ VALUES
 
 INSERT INTO `utilisateur` (`email`,`password`)
 VALUES
-('admin','$2y$10$SgqINto.4DDHqHTsHVOxqONUTWDnvKTxxFf9gYa4Ewnv2mph/Sxim'),
-('mobileman@gmail.com','$2y$10$ThBunj.Zk1EYbVr7BQPKku1THP60Bxo1PQwH04Fy7McWLXS86nqf.');
+('admin','$2a$04$9ksNjt7D0KWOcHHiBTpjmuxoVOxQmyOmBJiglwWotRvo7M6fkINAa'),
+('mobileman@gmail.com','$2a$04$JOnhQPV7He4/3wQrAuUzS.22y2uk/KM82qAVC3ltqgacmHJ.3BoI2');

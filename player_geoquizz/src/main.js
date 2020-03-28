@@ -7,10 +7,13 @@ import 'leaflet/dist/leaflet.css';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal';
 import ProgressBar from 'vuejs-progress-bar'
+import axios from 'axios'
+import Classement from './components/Classement.vue'
 
 Vue.use(VueRouter)
 Vue.use(VModal, { dynamic: true, dynamicDefaults: { clickToClose: false }})
 Vue.use(ProgressBar)
+Vue.use(axios)
 
 const router = new VueRouter({
   mode: "history",
@@ -18,6 +21,7 @@ const router = new VueRouter({
   routes: [
     { path: "/", component: StartGame},
     { path: "/game/:token", component: Game},
+    { path: "/classement", component: Classement}
     
   ]
 })

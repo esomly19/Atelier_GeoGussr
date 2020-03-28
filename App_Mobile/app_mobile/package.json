@@ -2,7 +2,7 @@
   "nativescript": {
     "id": "org.nativescript.vuephoto",
     "tns-android": {
-      "version": "6.3.1"
+      "version": "6.2.0"
     },
     "tns-ios": {
       "version": "6.3.0"
@@ -14,11 +14,13 @@
   "dependencies": {
     "@nativescript/theme": "~2.2.1",
     "axios": "^0.19.2",
-    "http": "0.0.0",
+    "bootstrap-vue": "^2.7.0",
     "nativescript-background-http": "^4.2.1",
     "nativescript-camera": "^4.5.0",
     "nativescript-geolocation": "^5.1.0",
     "nativescript-imagepicker": "^7.1.0",
+    "nativescript-loading-indicator-new": "^2.1.0",
+    "nativescript-mapbox": "^4.4.1",
     "nativescript-vue": "~2.4.0",
     "tns-core-modules": "~6.3.0"
   },

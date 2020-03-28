@@ -1,8 +1,10 @@
 <template>
   <div class="app">
     <h1>Geogussr Backoffice</h1>
-    <Button type="button" class="btn btn-primary" v-on:click="show">Ajouter des photos</Button>
-    <Button type="button" class="btn btn-primary">Créer une série</Button>
+    <Button type="button" class="btn btn-primary" v-on:click="show"
+      >Ajouter des photos</Button
+    >
+   
 
     <modal :width="1200" :height="500" name="ok">
       <button id="x" v-on:click="hide">X</button>
@@ -13,7 +15,7 @@
             style="height:900px"
             :zoom="zoom"
             :center="center"
-            attribution="&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>"
+            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
           >
             <l-tile-layer :url="url"></l-tile-layer>
             <l-marker
@@ -26,7 +28,9 @@
         <div class="col-md-4">
           <br />
           <br />
-          <button v-on:click="submitLoc()" class="btn btn-primary">Valider localisation</button>
+          <button v-on:click="submitLoc()" class="btn btn-primary">
+            Valider localisation
+          </button>
           <input type="file" v-on:change="onFileChanged" />
           <button v-on:click="onUpload">Upload!</button>
 
@@ -131,6 +135,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 h3 {
   margin: 40px 0 0;
 }
