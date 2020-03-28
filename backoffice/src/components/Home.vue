@@ -60,7 +60,7 @@ let config = {
 };
 import axios from "axios";
 export default {
-  name: "Geogussr Backoffice",
+
   components: {
     LMap,
     LTileLayer,

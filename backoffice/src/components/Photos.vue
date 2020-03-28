@@ -3,29 +3,84 @@
          <div class="gallery">
                <h1>{{ title }}  </h1>  
          </div>
-                <div class="row">
-                    
-                </div>
+<div class="container">
+  <div class="card-columns">
+<div v-for=" ph in photos" v-bind:key="ph.id">
+  <Photo :lol="ph"/>
+  </div>
+  </div>
+  </div>
+<nav>
+  <Button  v-on:click="previousPage()">previous</Button>
+  <Button v-on:click="nextPage()">next</Button>
+</nav>
   </div>
 </template>
 
 <script>
-
+import axios from "axios";
+import Photo from "./Photo";
 export default {
-  name: "Geogussr Backoffice",
-  components: {
-   
-  },
+  name: "GeogussrBackoffice",
+  components: { Photo },
   props: {
   
   },
   data() {
     return {
        title: 'Collection of picture',
+      photos: [],
+      page:1,
+      size:10,
+      numberofpages:6,
+      count:0
     };
   },
 
-  methods: {}
+  methods: {
+   nextPage(){
+if((this.page+1) >this.numberofpages){
+this.page=this.numberofpages;}else{
+  this.page++;}
+  this.searchPhtos();
+},
+  previousPage(){
+  if((this.page-1) <1){
+  this.page=1;}else{this.page--;}
+   this.searchPhtos();
+},
+  searchPhtos(){
+     axios
+        .get(
+          "http://geogatotor.pagekite.me/photo?page="+this.page+"&size=10"
+        )
+        .then(res => {
+          console.log(res.data.photos);
+          this.count=res.data.count;
+              this.numberofpages =res.data.nbpage;
+
+          this.photos=res.data.photos;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally();
+
+  },
+ calculPages(){
+
+}
+
+}, mounted () {
+this.searchPhtos();
+this.calculPages();
+}, computed:{
+
+
+}
+
+
+  
    
 };
 </script>

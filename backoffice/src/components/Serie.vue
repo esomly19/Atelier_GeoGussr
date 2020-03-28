@@ -12,8 +12,7 @@
             <!-- -->
           </div>
         </div>
-      </div>
-      <div class="wrap">
+
         <div class="box two">
           <div class="poster p2">
             <h4 v-on:click="modifier">📝</h4>
