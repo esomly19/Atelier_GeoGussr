@@ -32,7 +32,7 @@ export default {
       photos: [],
       page:1,
       size:10,
-      numberofpages:6,
+      numberofpages:0,
       count:0
     };
   },
@@ -67,13 +67,11 @@ this.page=this.numberofpages;}else{
         .finally();
 
   },
- calculPages(){
 
-}
 
 }, mounted () {
 this.searchPhtos();
-this.calculPages();
+
 }, computed:{
 
 
