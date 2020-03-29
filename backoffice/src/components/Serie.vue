@@ -48,7 +48,7 @@ data() {
       this.$modal.hide("add");
     },
     modifier() {
-      this.$router.push({ path: '/configuerSerie'})
+      this.$router.push({ path: '/configurerSerie'})
     },
      nextPage(){
 if((this.page+1) >this.numberofpages){

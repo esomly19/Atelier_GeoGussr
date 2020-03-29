@@ -20,9 +20,7 @@ export default {
   },
 
   methods: {
-  ok(){
-  console.log("ojj : " + this.lol[0]);
-}
+
 
 }, mounted () {
 this.ok();
