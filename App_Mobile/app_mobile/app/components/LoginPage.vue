@@ -121,7 +121,7 @@ export default {
         })
         .catch(err => {
           console.error(err.message);
-      this.alert("Malheureusement nous n'avaons pas trouvé votre compte.");
+      this.alert("Malheureusement nous n'avons pas trouvé votre compte.");
 
         })
         .finally(() => {});
