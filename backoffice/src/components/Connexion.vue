@@ -53,7 +53,7 @@ export default {
             if(this.mail === null || this.mail === "" || this.mdp === null || this.mdp === "" ) {
                 this.$modal.show('err')
             }else {
-                 axios.post('http://geogatotor.pagekite.me/connexion', {email: this.mail, password: this.mdp}).then(res => {
+                 axios.post('http://docketu.iutnc.univ-lorraine.fr:19502/connexion', {email: this.mail, password: this.mdp}).then(res => {
                     console.log(res.data)
                     localStorage.setItem('jwt',res.data.token)
                     console.log(localStorage)

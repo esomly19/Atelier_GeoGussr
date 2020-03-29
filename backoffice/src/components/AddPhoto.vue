@@ -10,7 +10,7 @@ export default {
     add() {
       axios({
         method: "post",
-        url: "https://geogatotor.pagekite.me/serie",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19502/serie",
         headers: {
           "Access-Control-Allow-Origin": "*"
         },

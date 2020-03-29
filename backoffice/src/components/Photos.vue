@@ -52,7 +52,7 @@ this.page=this.numberofpages;}else{
   searchPhtos(){
      axios
         .get(
-          "http://geogatotor.pagekite.me/photo?page="+this.page+"&size=10"
+          "http://docketu.iutnc.univ-lorraine.fr:19502/photo?page="+this.page+"&size=10"
         )
         .then(res => {
           console.log(res.data.photos);
