@@ -26,7 +26,7 @@ export default {
     onSaveTap() {
 
             axios.put("http://docketu.iutnc.univ-lorraine.fr:19501/serie/"+this.serie.id,{
-    "ville": this.serie.name,
+    "ville": this.serie.ville,
     "map_refs": {"positionX":this.serie.map_refs.positionX,"positionY":this.serie.map_refs.positionY,"zoom":this.serie.map_refs.zoom},
     "dist": this.serie.dist
 })
