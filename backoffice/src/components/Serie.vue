@@ -61,7 +61,7 @@ this.page=this.numberofpages;}else{
   this.page=1;}else{this.page--;}
    this.searchSeries();
 }, searchSeries(){
-  axios.get("http://geogatotor.pagekite.me/serie?page="+this.page+"&size=9").then(res => {
+  axios.get("http://docketu.iutnc.univ-lorraine.fr:19502/serie?page="+this.page+"&size=9").then(res => {
                 this.Series = res.data.series
                  this.count=res.data.count;
               this.numberofpages =res.data.nbpage;

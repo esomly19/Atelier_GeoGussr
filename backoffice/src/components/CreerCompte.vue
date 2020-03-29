@@ -58,7 +58,7 @@ export default {
             if(this.mail === null || this.mail === "" || this.mdp === null || this.mdp === "" || this.mdp !== this.mdp2 ) {
                 this.$modal.show('err')
             }else {
-                 axios.post('http://geogatotor.pagekite.me/utilisateur', {email: this.mail, password: this.mdp}).then(res => {
+                 axios.post('http://docketu.iutnc.univ-lorraine.fr:19502/utilisateur', {email: this.mail, password: this.mdp}).then(res => {
                      console.log(res.data)
                  }).catch(err => {
                      this.$modal.show('err', {erreur: err})
