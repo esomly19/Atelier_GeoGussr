@@ -50,7 +50,7 @@ components: { photolist, updateSerie },
   afficherPhoto(lol){
  axios({
         method: "GET",
-        url: "http://geogatotor.pagekite.me/photo/serie/"+lol,
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/serie/"+lol,
       
       })
         .then(result => {

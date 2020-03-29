@@ -108,7 +108,7 @@ export default {
   logine(user) {
  axios({
         method: "post",
-        url: "http://geogatotor.pagekite.me/connexion",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/connexion",
         data: {
           "email":user.email,
           "password":user.password
@@ -133,7 +133,7 @@ export default {
     registery(user) {
     axios({
         method: "post",
-        url: "http://geogatotor.pagekite.me/utilisateur",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/utilisateur",
         data: {
           "email":user.email,
           "password":user.password
