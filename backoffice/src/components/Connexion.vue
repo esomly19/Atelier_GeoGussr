@@ -54,16 +54,19 @@ export default {
                 this.$modal.show('err')
             }else {
                  axios.post('http://geogatotor.pagekite.me/connexion', {email: this.mail, password: this.mdp}).then(res => {
-                     console.log(res.data)
+                    console.log(res.data)
+                    localStorage.setItem('jwt',res.data.token)
+                    console.log(localStorage)
+                    this.$router.push({name:'Home'})
                  }).catch(err => {
                      this.$modal.show('err', {erreur: err})
                  })
             }
            
-        }
-
+        },
         
     },
+
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -9,8 +9,13 @@
             >Series</router-link
           >
         <router-link class="nav-item nav-link" to="/Photos"
-            >Photos</router-link
-          >
+            >Photos</router-link>
+          <router-link class="nav-item nav-link" v-if="connected" v-on:click="seDeconnecter" to="/connexion"
+            >Se Déconnecter</router-link>
+          <router-link class="nav-item nav-link" v-on:click="seDeconnecter" to="/connexion">
+          <p v-if="connected">Se Déconnecter</p>
+          <p v-else>Se Connecter</p>
+          </router-link>
         </div>
       </div>
     </nav>
@@ -23,7 +28,30 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+
+  data(){
+    return {
+      connected: false,
+    }
+  },
+
+  methods:{
+    seDeconnecter(){
+      this.localStorage.setItem('jwt',false)
+      console.log(this.localStorage.getItem('jwt'))
+      this.connected = false
+    }
+  },
+
+  watch: {
+    isConnect(){
+      this.connected = localStorage.getItem('jwt')
+    }
+    
+    
+  },
+
 };
 </script>
 

@@ -9,7 +9,7 @@
       <Label   row="0"  col="0" :text="soro.map_refs.positionX"></Label>
       <Label   row="0"  col="1" :text="soro.map_refs.positionY"></Label>
    </GridLayout>
-  <Button row ="3" text="MISE A JOUR"  @tap="update(soro.id)"></Button>
+  <Button row ="3" text="MISE A JOUR"  @tap="update(soro)"></Button>
   {{ this.afficherPhoto(soro.id)}}
 
 
@@ -22,9 +22,10 @@
 <script>
 import axios from "axios";
 import photolist from "./photolist";
+import updateSerie from "./updateSerie";
 export default {
   props: ["soro"],
-components: { photolist },
+components: { photolist, updateSerie },
   data() {
     return {
   lolo:[]
@@ -36,21 +37,16 @@ components: { photolist },
       this.$navigateBack();
     },
     update(lul){
-     axios({
-        method: "PUT",
-        url: "http://geogatotor.pagekite.me/serie/(id)",
-      
-      })
-        .then(result => {
-    
-        })
-        .catch(err => {
-          console.error(err.message);
-        })
-        .finally(() => {});
+    const newId = new Date().getTime();
+      this.$showModal(updateSerie, { props: { serie: lul } }).then(newItem => {
+        if (newItem) {
+          console.log(newItem);
+        }
+      });
    
 
     },
+ 
   afficherPhoto(lol){
  axios({
         method: "GET",

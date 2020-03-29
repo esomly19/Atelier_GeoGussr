@@ -38,17 +38,33 @@ const router = new VueRouter({
   mode: "history",
 
   routes: [
-    { path: "/connexion", component: Connexion },
-    { path: "/creerCompte", component: CreerCompte },
-    { path: "/", component: Home },
-    { path: "/Serie", component: Serie },
-    { path: "/AddPhoto", component: AddPhoto },
-    { path: "/Photos", component: Photos },
-    { path: "/configuerSerie", component: ConfigurerSerie },
-    { path: "/detail/:id", name: 'detail', component: Detail },
+    { path: "/connexion", component: Connexion, meta: { guest: true } },
+    { path: "/creerCompte", component: CreerCompte, meta: { guest: true } },
+    { path: "/detail:id", name: "detail", component: Detail, meta: { requiresAuth: true } },
+    { path: "/", name: "Home", component: Home },
+    { path: "/Serie", component: Serie, meta: { requiresAuth: true } },
+    { path: "/AddPhoto", component: AddPhoto, meta: { requiresAuth: true } },
+    { path: "/Photos", component: Photos, meta: { requiresAuth: true } },
+    { path: "/configurerSerie", component: ConfigurerSerie, meta: { requiresAuth: true } },
     { path: "/*", component: NotFound }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    console.log("authentification requise")
+    console.log(localStorage.getItem('jwt'))
+    if (localStorage.getItem('jwt') === null) {
+      next('/connexion')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+
 new Vue({
   el: "#app",
   router,

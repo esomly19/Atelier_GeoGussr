@@ -3,6 +3,10 @@
     <StackLayout>
       <Label text="Créer une nouvelle série"></Label>
       <TextField v-model="name" hint="Nom de la série"></TextField>
+      	<WrapLayout> <Label text="Position X " />: <TextField v-model="posX" hint="Position x de la série"></TextField> 	</WrapLayout>
+       	<WrapLayout><Label text="Position Y " />   <TextField v-model="posY" hint="Position y de la série"></TextField> 	</WrapLayout>
+       <TextField v-model="zoom" hint="Zoom de la série"></TextField>
+      <TextField v-model="distance" hint="Distance de la série"></TextField>
       <Button text="Créer" @tap="onSaveTap"></Button>
     </StackLayout>
   </Page>
@@ -15,34 +19,28 @@ export default {
   data: function() {
     return {
       name: " ",
+      posX: 48.6850,
+      posY: 6.1638,
+      zoom: 12,
+      distance:150
    
     };
   },
   methods: {
     onSaveTap() {
-Geolocation.enableLocationRequest(true).then(() => {
-        Geolocation.isEnabled().then(isLocationEnabled => {
-          if (!isLocationEnabled) {
-            // potentially do more then just end here...
-            return;
-          }
 
-          // MUST pass empty object!!
-          Geolocation.getCurrentLocation({})
-            .then(result => {
-            this.location=result;
 const myObj = {
- 'positionX':48.6850,'positionY':6.1638,'zoom':12
+ 'positionX':this.posX,'positionY':this.posY,'zoom':this.zoom
 };
 
-const myObjStr = JSON.stringify(myObj);
+
       axios({
         method: "post",
         url: "https://geogatotor.pagekite.me/serie",
         data: {
           "ville": this.name,
-          "map_refs": myObjStr,
-          "dist": 150
+          "map_refs": myObj,
+          "dist": this.distance
         }
       })
         .then(result => {
@@ -52,18 +50,11 @@ const myObjStr = JSON.stringify(myObj);
         .catch(err => {
           console.error(err.message);
         })
-        .finally(() => {});
-      const newItem = {
-        id: this.id,
-        name: this.name,
-        images: []
-      };              
-           this.$modal.close(newItem);   })
-            .catch(e => {
-              console.log("loc error", e);
-            });
-        });
-      });
+        .finally(() => {      
+     this.$modal.close(newItem);  });
+    
+           
+    
      }
   }
 };
