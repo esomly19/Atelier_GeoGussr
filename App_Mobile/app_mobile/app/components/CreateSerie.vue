@@ -36,7 +36,7 @@ const myObj = {
 
       axios({
         method: "post",
-        url: "https://geogatotor.pagekite.me/serie",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/serie",
         data: {
           "ville": this.name,
           "map_refs": myObj,

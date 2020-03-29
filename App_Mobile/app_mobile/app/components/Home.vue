@@ -160,7 +160,7 @@ this.imagesprises.splice(img);
 lololo(){   
  axios({
         method: "GET",
-        url: "http://geogatotor.pagekite.me/serie",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/serie",
       
       })
         .then(result => {

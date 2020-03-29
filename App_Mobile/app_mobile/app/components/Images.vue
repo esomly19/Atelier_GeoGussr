@@ -85,7 +85,7 @@ console.log(this.url);
 this.montre=false;
  axios({
         method: "post",
-        url: "http://geogatotor.pagekite.me/photo",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19501/photo",
         data: {
     "desc": this.name,
     "positionX": this.location.longitude,
