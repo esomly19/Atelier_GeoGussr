@@ -10,7 +10,7 @@ const app = express()
 // Constants
 const PORT = 3000;
 const HOST = "0.0.0.0";
-const SERVER = "http://geogatotor.pagekite.me/"
+const SERVER = "http://docketu.iutnc.univ-lorraine.fr:19502/"
 
 app.use(
     bodyParser.urlencoded({
@@ -50,80 +50,39 @@ app.get('/', function (req, res) {
 
 //--------------- SERIE ---------------
 
-//get de toute les séries avec pagination et nom de ville en option
+//get de toute les séries
 app.get('/serie',(req, res) => {
-    let page = 1
-    if (req.query.page != null && req.query.page > 0) {
-        page = req.query.page
-    }
-    let size = 10
-    if (req.query.size != null && req.query.size > 0) {
-        size = req.query.size
-    }
+    let count = 0;
 
-    let ville = null
-    if (req.query.ville != null){
-        ville = req.query.ville;
-    }
-
-    let startIndex = (page - 1) * size
-    let endIndex = page * size
-    let count = 0
-    let query = "";
-    if(ville){
-        query = `SELECT * FROM serie WHERE ville = "${ville}" ORDER by id ASC`;
-    }else{
-        query = "SELECT * FROM serie ORDER BY id ASC";
-    }
-     db.query(query, (err, result) => {
-         if (err){
+    let query = "SELECT * FROM serie ORDER BY id ASC";
+    db.query(query, (err, result) => {
+        if (err){
             console.error(err);
             res.status(400).send(err);
-         }else{
+        }else{
             let serieList = [];
             let serie = {};
             result.forEach(lm => {
-                serie.serie = {
+                serie = {
                     id: lm.id,
                     ville: lm.ville,
                     map_refs: JSON.parse(lm.map_refs),
                     dist: lm.dist
                 }
                 serie.links = {
-                    
                     self: { href: `${SERVER}serie/${lm.id}`}, 
                     photos: { href: `${SERVER}photo/serie/${lm.id}`}
                 }
                 serieList.push(serie);
                 serie = {};
                 count++;
-
             });
-
-            let nbpage = Math.ceil(count / size)
-            if (page > nbpage) {
-                page = nbpage
-                startIndex = (page - 1) * size
-                endIndex = page * size
-            }
 
             let data = {};
             data.type = "collection";
             data.count = count;
-            data.size = serieList.slice(startIndex, endIndex).length;
-            data.nbpage = nbpage;
             
-            if (startIndex > 0){
-                let previous = SERVER + "serie?page=" + parseInt(parseInt(page) - 1) + "&size=" + size;
-                data.previous = previous;
-            }
-
-            if (endIndex < count){
-                let next = SERVER + "serie?page=" + parseInt(parseInt(page) + 1) + "&size=" + size;
-                data.next = next;
-            }
-
-            data.series = serieList.slice(startIndex, endIndex);
+            data.series = serieList;
 
             res.status(200).send(data);
 
@@ -131,8 +90,6 @@ app.get('/serie',(req, res) => {
          }
      })
 })
-
-
 
 // get sur une serie via son id
 app.get('/serie/:id',(req, res) => {
@@ -151,7 +108,7 @@ app.get('/serie/:id',(req, res) => {
             let serie = {
                 "id": result[0].id,
                 "ville": result[0].ville,
-                "map_refs": result[0].map_refs,
+                "map_refs": JSON.parse(result[0].map_refs),
                 "dist": result[0].dist,
                 "photos": { href: `${SERVER}photo/serie/${result[0].id}`}
             };
@@ -223,81 +180,22 @@ app.post("/serie", (req,res) => {
     })
 })
 
-//associer des photos a une serie, id serie dans l'uri et tab d'id photo dans body
-app.post("/serie/ajouterphoto/:id", (req,res) => {
-    let id = req.params.id;
-
-    let listIdPhoto = req.body.idPhotos;
 
 
-    let listRes = []
-    listIdPhoto.forEach(idPhoto => {
-        let query = `INSERT INTO serie_photo (id_serie,id_photo) VALUES (${id},${idPhoto})`
-
-        db.query(query, (err,result) => { 
-            if (err) {
-                console.error(err);
-                console.log("erreur | photo ajouter : "+listRes)
-                res.status(400).json({"message": err, "ListPhotoAjouter": listRes});
-            }else{
-                listRes.push(idPhoto)
-                if(compare(listRes,listIdPhoto)){
-                    res.status(201).send(JSON.stringify(listRes))
-                }
-            }
-        })
-    })
-
-
-})
 
 // -------------------- PHOTO ---------------------
 
-//post d'une photo avec metadonnée + URL
-app.post("/photo", (req,res) => {
-    let photo = JSON.stringify(req.body);
-    let objPhoto = JSON.parse(photo);
 
-    let desc = objPhoto.desc;
-    let positionX = objPhoto.positionX;
-    let positionY = objPhoto.positionY;
-    let url = objPhoto.url;
-
-    let query = "INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`) VALUES ('"+desc+"',"+ positionX +","+ positionY +",'"+ url +"')"
-
-    db.query(query, (err,result) => {
-        if(err){
-            console.log(err); 
-            res.status(404).send(err);
-        }else{
-            res.status(201).send("creation de photo reussi")
-        }
-    })
-})
-
-
-
-//get sur tout les photos avec pagination et filtre de nom de ville
+//get sur tout les photos avec filtre de nom de ville
 app.get('/photo',(req,res) => {
-    let page = 1
-    if (req.query.page != null && req.query.page > 0) {
-        page = req.query.page
-    }
-    let size = 10
-    if (req.query.size != null && req.query.size > 0) {
-        size = req.query.size
-    }
+    let count = 0
+    let query = "";
 
     let ville = null
-    if(req.query.ville != null){
+    if (req.query.ville != null){
         ville = req.query.ville; 
     }
-    
-    let count = 0
-    let startIndex = (page - 1) * size
-    let endIndex = page * size
 
-    let query = "";
     if(ville){
         query = `SELECT * FROM photo INNER JOIN serie_photo INNER JOIN serie  WHERE photo.id = serie_photo.id_photo AND serie_photo.id_serie = serie.id AND serie.ville = "${ville}" ORDER BY photo.id ASC`;
     }else{
@@ -327,33 +225,17 @@ app.get('/photo',(req,res) => {
                 count++; 
             });
 
-            let nbpage = Math.ceil(count / size)
-            if (page > nbpage) {
-                page = nbpage
-                startIndex = (page - 1) * size
-                endIndex = page * size
-            }
+            
 
             let data = {};
             
             data.type = "collection";
             data.count = count;
-            data.size = photoList.slice(startIndex, endIndex).length;
-            data.nbpage = nbpage;
 
-            if (startIndex > 0){
-                let previous = SERVER + "serie?page=" + parseInt(parseInt(page) - 1) + "&size=" + size;
-                data.previous = previous;
-            }
-
-            if (endIndex < count){
-                let next = SERVER + "serie?page=" + parseInt(parseInt(page) + 1) + "&size=" + size;
-                data.next = next;
-            }
             if(ville){
                 data.ville = ville;
             }
-            data.photos = photoList.slice(startIndex, endIndex);
+            data.photos = photoList;
             
             res.status(200).send(data);
 
@@ -429,9 +311,30 @@ app.get("/photo/serie/:idserie", (req,res) => {
             res.status(200).send(data);
         }
 
-    }) 
+    })
 })
 
+//post d'une photo avec metadonnée + URL
+app.post("/photo", (req,res) => {
+    let photo = JSON.stringify(req.body);
+    let objPhoto = JSON.parse(photo);
+
+    let desc = objPhoto.desc;
+    let positionX = objPhoto.positionX;
+    let positionY = objPhoto.positionY;
+    let url = objPhoto.url;
+
+    let query = "INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`) VALUES ('"+desc+"',"+ positionX +","+ positionY +",'"+ url +"')"
+
+    db.query(query, (err,result) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }else{
+            res.status(201).send("creation de photo reussi")
+        }
+    })
+})
 
 
 //-------------- utilisateur ---------------
@@ -443,7 +346,7 @@ app.post("/connexion", (req,res) => {
     let query = `SELECT * FROM utilisateur WHERE email = "${objUtilisateur.email}"`;
 
     db.query(query, (err,result) => {
-    
+       
         if(err) {
             console.error(err);
             res.status(404).send(err);
@@ -479,7 +382,7 @@ app.post("/utilisateur", (req,res) => {
             }else{
                 const salt = bcrypt.genSaltSync(4);
                 const hash = bcrypt.hashSync(objUtilisateur.password, salt);
-                let query2 = ` INSERT INTO utilisateur(email,password) VALUES ('${objUtilisateur.email}','${hash}')`;
+                let query2 = `INSERT INTO utilisateur(email,password) VALUES ('${objUtilisateur.email}','${hash}')`;
 
                 db.query(query2, (err,result) => {
                     if(err){
