@@ -87,6 +87,23 @@ services:
     links:
       - mysql:db
     networks:
-      - d.net     
+      - d.net   
+      
+  player_geoquizz:
+    container_name: player_geoquizz
+    image: node
+    ports: 
+      - "19503:8080"
+    volumes: 
+      - "./player_geoquizz:/app/player_geoquizz"   
+    environment:
+      - NODE_ENV=production
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+    working_dir: /app/player_geoquizz
+    command: bash -c "npm i && npm run build"  
+    networks:
+      - d.net
+
 
       
