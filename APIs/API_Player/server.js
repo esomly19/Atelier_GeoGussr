@@ -343,7 +343,7 @@ app.get('/getVilles',(req,res)=>{
 
 
 
-const db = mysql.createConnection({
+/**const db = mysql.createConnection({
     host: "db",
     user: "root",
     password: "root",
@@ -355,7 +355,23 @@ db.connect(err => {
         return err;
     }
     console.log("Connected to database");
+})*/
+
+let db = mysql.createPool({
+    connectionLimit : 100,
+    host:"db",
+    user: "root",
+    password: "root",
 })
+
+db.getConnection(function(err, connection) {
+    if(err) {
+        return err
+    }
+    connection.changeUser({database: "geoquizz"})
+    connection.release()
+})
+
 app.listen(PORT, HOST);
 console.log(`API Running on http://${HOST}:${PORT}`)
 

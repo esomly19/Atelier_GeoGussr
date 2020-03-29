@@ -49,4 +49,37 @@ services:
     command: bash -c "npm i && node server.js"
     links:
       - mysql:db
+
+  api_mobile:
+    container_name: api_mobile
+    image: node
+    ports:
+      - "19501:3000"
+    volumes:
+      - ./api_mobile:/app/api_mobile
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - NODE_ENV=production
+    working_dir: /app/api_mobile
+    command: bash -c "npm i && node server.js"
+    links:
+      - mysql:db
+      
+  api_backoffice:        
+    container_name: api_backoffice
+    image: node
+    ports:
+      - "19502:3000"
+    volumes:
+      - ./api_backoffice:/app/api_backoffice
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - NODE_ENV=production
+    working_dir: /app/api_backoffice
+    command: bash -c "npm i && node server.js"
+    links:
+      - mysql:db   
+
       
