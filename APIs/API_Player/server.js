@@ -20,13 +20,6 @@ app.use(
 
   const PORT = 3000;
   const HOST = "0.0.0.0"; 
-app.listen(PORT, HOST);
-console.log(`API Running on http://${HOST}:${PORT}`)
-
-
-
-
-
 
 app.get('/', function (req, res) {
     res.send('ça marche les potos')
@@ -350,20 +343,56 @@ app.get('/getVilles',(req,res)=>{
 
 
 
-const db = mysql.createConnection({
-    host: "mysql",
-    user: "com",
-    password: "com",
-    database: "com"
+let db = mysql.createConnection({
+    host: "db",
+    user: "root",
+    password: "root",
+    database: "geoquizz"
 });
-
+/** 
 db.connect(err => {
     if (err) {
-        throw err;
+        return err;
     }
     console.log("Connected to database");
-})
+})*/
 
+/**let db = mysql.createPool({
+    connectionLimit: 10,
+    host: "db",
+    user: 'root',
+    password:'root',
+    database: 'geoquizz',
+    
+})*/
+
+function startConnection() {
+    console.error('CONNECTING');
+    db = mysql.createConnection({
+        host: "mysql",
+        user: "root",
+        password: "root",
+        database: "geoquizz"
+    });
+    console.log(db)
+    db.connect(function(err) {
+        if (err) {
+            console.error('CONNECT FAILED', err.code);
+            startConnection();
+        }
+        else
+            console.error('CONNECTED');
+    });
+    db.on('error', function(err) {
+        if (err.fatal)
+            startConnection();
+    });
+}
+
+startConnection();
+
+app.listen(PORT, HOST);
+console.log(`API Player Running on http://${HOST}:${PORT}`)
 
 // ------------------ GET ------------------
 app.get("*", (req, res) => {

@@ -1,0 +1,92 @@
+version : "3"
+
+networks:
+  d.net:
+    driver: bridge
+
+services:
+    
+
+#############################
+# mysql + adminer / can be replaced by mariadb
+#############################
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=geoquizz
+      - MYSQL_PASSWORD=geoquizz
+      - MYSQL_DATABASE=geoquizz
+    ports:
+      - "19100:3306"
+    volumes :
+      - ./sql:/var/sql
+    networks:
+      - d.net
+
+  myadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "19101:80"
+    links:
+      - mysql:db
+    networks:
+      - d.net
+
+  api_joueur:
+    container_name: api_player
+    image: node
+    ports:
+      - "19500:3000"
+    volumes:
+      - ./api_player:/app/api_player
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - NODE_ENV=production
+    working_dir: /app/api_player
+    command: bash -c "npm i && node server.js"
+    links:
+      - mysql:db
+    networks:
+      - d.net  
+         
+
+  api_mobile:
+    container_name: api_mobile
+    image: node
+    ports:
+      - "19501:3000"
+    volumes:
+      - ./api_mobile:/app/api_mobile
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - NODE_ENV=production
+    working_dir: /app/api_mobile
+    command: bash -c "npm i && node server.js"
+    links:
+      - mysql:db
+    networks:
+      - d.net  
+      
+  api_backoffice:        
+    container_name: api_backoffice
+    image: node
+    ports:
+      - "19502:3000"
+    volumes:
+      - ./api_backoffice:/app/api_backoffice
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - NODE_ENV=production
+    working_dir: /app/api_backoffice
+    command: bash -c "npm i && node server.js"
+    links:
+      - mysql:db
+    networks:
+      - d.net     
+
+      

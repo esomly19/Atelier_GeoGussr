@@ -128,7 +128,7 @@ export default {
         },
 
         searchSeries(){
-            axios.get("http://geogatotor.pagekite.me/serie?page="+this.page).then(res => {
+            axios.get("http://docketu.iutnc.univ-lorraine.fr:19502/serie?page="+this.page).then(res => {
                 this.currentSeries = res.data.series
                 console.log(res.data.series)
                 this.numberofpages =res.data.nbpage;
@@ -198,7 +198,7 @@ export default {
         },
         save() {
     if(!this.creation){
-            axios.put("http://geogatotor.pagekite.me/serie/"+this.id,{
+            axios.put("http://docketu.iutnc.univ-lorraine.fr:19502/serie/"+this.id,{
     "ville": this.city,
     "map_refs": {"positionX":this.positionCentre.lat,"positionY":this.positionCentre.lng,"zoom":this.zoom},
     "dist": this.distance
@@ -212,7 +212,7 @@ const myObj = {
 };
     axios({
         method: "post",
-        url: "https://geogatotor.pagekite.me/serie",
+        url: "http://docketu.iutnc.univ-lorraine.fr:19502/serie",
         data: {
           "ville": this.city,
           "map_refs": myObj,

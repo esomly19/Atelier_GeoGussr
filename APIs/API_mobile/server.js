@@ -389,21 +389,55 @@ app.put("*", (req, res) => {
     res.status(500).json({ "type": "error", "error": 500, "message": "Pb serveur : " + req._parsedUrl.pathname });
 });
 
-app.listen(PORT, HOST);
-console.log(`Commande API Running on http: //${HOST}:${PORT}`);
 
-const db = mysql.createConnection({
-    host: "mysql",
-    user: "com",
-    password: "com",
-    database: "com"
+
+
+let db = mysql.createConnection({
+    host: "db",
+    user: "root",
+    password: "root",
+    database: "geoquizz"
 });
-
-// connexion à la bdd
+/** 
 db.connect(err => {
     if (err) {
-        throw err;
+        return err;
     }
     console.log("Connected to database");
-})
+})*/
+
+/**let db = mysql.createPool({
+    connectionLimit: 10,
+    host: "db",
+    user: 'root',
+    password:'root',
+    database: 'geoquizz',
+    
+})*/
+
+function startConnection() {
+    console.error('CONNECTING');
+    db = mysql.createConnection({
+        host: "mysql",
+        user: "root",
+        password: "root",
+        database: "geoquizz"
+    });
+    console.log(db)
+    db.connect(function(err) {
+        if (err) {
+            console.error('CONNECT FAILED', err.code);
+            startConnection();
+        }
+        else
+            console.error('CONNECTED');
+    });
+    db.on('error', function(err) {
+        if (err.fatal)
+            startConnection();
+    });
+}
+
+app.listen(PORT, HOST);
+console.log(`API Running on http://${HOST}:${PORT}`)
  

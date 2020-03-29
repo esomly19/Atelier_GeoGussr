@@ -109,7 +109,7 @@ phoajouterid:[],
   methods: {
 ajouterserie(){
 axios.post(
-          "http://geogatotor.pagekite.me/serie/ajouterphoto/"+this.$route.params.id, {
+          "http://docketu.iutnc.univ-lorraine.fr:19502/serie/ajouterphoto/"+this.$route.params.id, {
 	"idPhotos":this.phoajouterid
 } )
         .then(res => {
@@ -141,7 +141,7 @@ this.page=this.numberofpages;}else{
  searchPhtos(){
      axios
         .get(
-          "http://geogatotor.pagekite.me/photo?page="+this.page+"&size=3"
+          "http://docketu.iutnc.univ-lorraine.fr:19502/photo?page="+this.page+"&size=3"
         )
         .then(res => {
           console.log(res.data.photos);
@@ -167,7 +167,7 @@ this.phoajouterid.splice(indexff,1);
 
 },
   save() {
- axios.put("http://geogatotor.pagekite.me/serie/"+this.$route.params.id,{
+ axios.put("http://docketu.iutnc.univ-lorraine.fr:19502/serie/"+this.$route.params.id,{
     "ville": this.city,
     "map_refs": {"positionX":this.positionCentre.lat,"positionY":this.positionCentre.lng,"zoom":this.zoom},
     "dist": this.distance
@@ -183,7 +183,7 @@ this.phoajouterid.splice(indexff,1);
             })}
   },
   created() {
- axios.get("http://geogatotor.pagekite.me/serie/"+this.$route.params.id).then(res => {
+ axios.get("http://docketu.iutnc.univ-lorraine.fr:19502/serie/"+this.$route.params.id).then(res => {
                 this.currentSerie = res.data;
                 this.positionCentre= { lat:  this.currentSerie.map_refs.positionX, lng: this.currentSerie.map_refs.positionY};
                 this.center= [this.currentSerie.map_refs.positionX, this.currentSerie.map_refs.positionY];

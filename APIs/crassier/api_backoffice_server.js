@@ -2,13 +2,15 @@
 const express = require('express')
 const mysql = require("mysql")
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+let config = require('./config');
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
 
 
 // Constants
-const PORT = 3000;
+const PORT = 3030;
 const HOST = "0.0.0.0";
 const SERVER = "http://geogatotor.pagekite.me/"
 
@@ -83,7 +85,7 @@ app.get('/serie',(req, res) => {
             let serieList = [];
             let serie = {};
             result.forEach(lm => {
-                serie.serie = {
+                serie = {
                     id: lm.id,
                     ville: lm.ville,
                     map_refs: JSON.parse(lm.map_refs),
@@ -151,7 +153,7 @@ app.get('/serie/:id',(req, res) => {
             let serie = {
                 "id": result[0].id,
                 "ville": result[0].ville,
-                "map_refs": result[0].map_refs,
+                "map_refs": JSON.parse(result[0].map_refs),
                 "dist": result[0].dist,
                 "photos": { href: `${SERVER}photo/serie/${result[0].id}`}
             };
@@ -454,7 +456,8 @@ app.post("/connexion", (req,res) => {
                 if(!bcrypt.compareSync(objUtilisateur.password,result[0].password)){
                     res.status(404).send("email ou mot de passe invalide");
                 }else{
-                    res.status(200).send("connexion accepté");
+                    let token = jwt.sign({}, config.secret , { algorithm: 'HS256' });
+                    res.status(200).send({ auth:true, token: token, user: objUtilisateur.email});
                 }
             }
              
@@ -494,51 +497,24 @@ app.post("/utilisateur", (req,res) => {
     })
 })
 
-let db = mysql.createConnection({
-    host: "db",
-    user: "root",
-    password: "root",
-    database: "geoquizz"
+
+
+
+app.listen(PORT, HOST);
+console.log(`Commande API Running on http: //${HOST}:${PORT}`);
+
+const db = mysql.createConnection({
+    host: "mysql",
+    user: "com",
+    password: "com",
+    database: "com"
 });
-/** 
+
+// connexion à la bdd
 db.connect(err => {
     if (err) {
-        return err;
+        throw err;
     }
     console.log("Connected to database");
-})*/
-
-/**let db = mysql.createPool({
-    connectionLimit: 10,
-    host: "db",
-    user: 'root',
-    password:'root',
-    database: 'geoquizz',
-    
-})*/
-
-function startConnection() {
-    console.error('CONNECTING');
-    db = mysql.createConnection({
-        host: "mysql",
-        user: "root",
-        password: "root",
-        database: "geoquizz"
-    });
-    console.log(db)
-    db.connect(function(err) {
-        if (err) {
-            console.error('CONNECT FAILED', err.code);
-            startConnection();
-        }
-        else
-            console.error('CONNECTED');
-    });
-    db.on('error', function(err) {
-        if (err.fatal)
-            startConnection();
-    });
-}
+})
  
-app.listen(PORT, HOST);
-console.log(`API Running on http://${HOST}:${PORT}`)
