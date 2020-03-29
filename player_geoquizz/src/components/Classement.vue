@@ -78,7 +78,7 @@ export default {
                                     score: "0",
                                     ville: "0"}               
             }else{
-                axios.get("https://geogassur.pagekite.me/getPlayerScore?name="+this.searchContaint).then(rep => {
+                axios.get("http://docketu.iutnc.univ-lorraine.fr:19500/getPlayerScore?name="+this.searchContaint).then(rep => {
                     this.findplayers = rep.data
                 })
             }
@@ -90,7 +90,7 @@ export default {
     },
 
     created() {
-        axios.get("https://geogassur.pagekite.me/getScore").then(res => {
+        axios.get("http://docketu.iutnc.univ-lorraine.fr:19500/getScore").then(res => {
             this.listeScores = res.data.scores
         }).catch(err => {
             console.log(err)
