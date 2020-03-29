@@ -50,19 +50,38 @@ const router = new VueRouter({
   ]
 });
 
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth) {
+//     console.log("authentification requise")
+//     console.log(localStorage.getItem('jwt'))
+//     if (!localStorage.getItem('jwt')) {
+//       next('/connexion')
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
+
 router.beforeEach((to, from, next) => {
+  
   if (to.meta.requiresAuth) {
     console.log("authentification requise")
     console.log(localStorage.getItem('jwt'))
-    if (localStorage.getItem('jwt') === null) {
+    if (!localStorage.getItem('jwt')) {
+      console.log("redirection à la connection")
       next('/connexion')
     } else {
+      console.log("pas de redirection")
       next()
     }
   } else {
     next()
   }
 })
+
+
 
 
 new Vue({

@@ -9,17 +9,14 @@
             >Series</router-link
           >
         <router-link class="nav-item nav-link" to="/Photos"
-            >Photos</router-link>
-          <router-link class="nav-item nav-link" v-if="connected" v-on:click="seDeconnecter" to="/connexion"
-            >Se Déconnecter</router-link>
-          <router-link class="nav-item nav-link" v-on:click="seDeconnecter" to="/connexion">
-          <p v-if="connected">Se Déconnecter</p>
+            >Photos</router-link>  
+          <router-link class="nav-item nav-link"  to="/connexion">
+          <p v-if="isConnected()" v-on:click="seDeconnecter">Se Déconnecter</p>
           <p v-else>Se Connecter</p>
           </router-link>
         </div>
       </div>
     </nav>
-
     <div id="appli">
       <router-view></router-view>
     </div>
@@ -32,27 +29,27 @@ export default {
 
   data(){
     return {
-      connected: false,
+      // connected: false,
     }
   },
 
   methods:{
     seDeconnecter(){
-      this.localStorage.setItem('jwt',false)
-      console.log(this.localStorage.getItem('jwt'))
+      localStorage.removeItem('jwt')
+      console.log(localStorage.getItem('jwt'))
       this.connected = false
+      this.$router.push({name:'Home'})
+    },
+
+    isConnected(){
+      if(localStorage.getItem('jwt')){
+        return true
+      }else{
+        return false
+      }
     }
   },
-
-  watch: {
-    isConnect(){
-      this.connected = localStorage.getItem('jwt')
-    }
-    
-    
-  },
-
-};
+}
 </script>
 
 <style>
