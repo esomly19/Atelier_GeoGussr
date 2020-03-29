@@ -99,7 +99,7 @@ export default {
         },
 
         end(){
-          axios.put("https://geogassur.pagekite.me/updatePartie", {token: this.token, score: this.scoreFinal}).catch(err => {
+          axios.put("http://docketu.iutnc.univ-lorraine.fr:19500/updatePartie", {token: this.token, score: this.scoreFinal}).catch(err => {
             console.log(err)
           })
           this.$router.push({ path: '/'})
@@ -111,7 +111,7 @@ export default {
     },
 
     created() {
-        axios.get("https://geogassur.pagekite.me/createPartie?token="+this.token).then(res => {
+        axios.get("http://docketu.iutnc.univ-lorraine.fr:19500/createPartie?token="+this.token).then(res => {
                 this.ville = res.data.ville
                 this.distanceForWin = res.data.dist
                 this.MesPhotos = res.data.photos

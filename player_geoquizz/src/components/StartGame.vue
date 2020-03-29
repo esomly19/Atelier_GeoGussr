@@ -41,7 +41,7 @@ export default {
             if(this.v === "Sélectionner une ville") {
                 this.v = null
             }
-            axios.post("https://geogassur.pagekite.me/createPartie", {name: this.pseudo, ville: this.v}).then(res => {
+            axios.post("http://docketu.iutnc.univ-lorraine.fr:19500/createPartie", {name: this.pseudo, ville: this.v}).then(res => {
                 
                 this.token = res.data
                 this.$router.push({ path: '/game/'+this.token})
@@ -52,7 +52,7 @@ export default {
     },
 
     created() {
-        axios.get("https://geogassur.pagekite.me/getVilles").then(res => {
+        axios.get("http://docketu.iutnc.univ-lorraine.fr:19500/getVilles").then(res => {
             this.villes = res.data
         }).catch(err => {
             console.log(err)
