@@ -10,7 +10,7 @@ const app = express()
 // Constants
 const PORT = 3000;
 const HOST = "0.0.0.0";
-const SERVER = "http://geogatotor.pagekite.me/"
+const SERVER = "http://docketu.iutnc.univ-lorraine.fr:19501/"
 
 app.use(
     bodyParser.urlencoded({
@@ -32,7 +32,7 @@ app.get('/', function (req, res) {
 //get de toute les séries
 app.get('/serie',(req, res) => {
     let count = 0;
-    
+
     let query = "SELECT * FROM serie ORDER BY id ASC";
     db.query(query, (err, result) => {
         if (err){
@@ -87,7 +87,7 @@ app.get('/serie/:id',(req, res) => {
             let serie = {
                 "id": result[0].id,
                 "ville": result[0].ville,
-                "map_refs": result[0].map_refs,
+                "map_refs": JSON.parse(result[0].map_refs),
                 "dist": result[0].dist,
                 "photos": { href: `${SERVER}photo/serie/${result[0].id}`}
             };
