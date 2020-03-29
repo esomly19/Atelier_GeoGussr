@@ -8,7 +8,7 @@ const app = express()
 
 
 // Constants
-const PORT = 3030;
+const PORT = 3000;
 const HOST = "0.0.0.0";
 const SERVER = "http://geogatotor.pagekite.me/"
 
@@ -494,24 +494,21 @@ app.post("/utilisateur", (req,res) => {
     })
 })
 
-
-
-
-app.listen(PORT, HOST);
-console.log(`Commande API Running on http: //${HOST}:${PORT}`);
-
 const db = mysql.createConnection({
-    host: "mysql",
-    user: "com",
-    password: "com",
-    database: "com"
+    host: "db",
+    user: "root",
+    password: "root",
+    database: "geoquizz"
 });
+
 
 // connexion à la bdd
 db.connect(err => {
     if (err) {
-        throw err;
+        return err;
     }
     console.log("Connected to database");
 })
  
+app.listen(PORT, HOST);
+console.log(`API Running on http://${HOST}:${PORT}`)

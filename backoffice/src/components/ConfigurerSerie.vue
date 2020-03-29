@@ -170,6 +170,8 @@ export default {
             console.log(url)
             axios.get(url).then(res => {
                 this.photos = res.data.photos
+            }).catch(err => {
+                console.log(err)
             })
         },
 
