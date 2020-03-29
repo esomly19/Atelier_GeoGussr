@@ -5,7 +5,7 @@ VALUES
 ('Paris','{"positionX":48.856614,"positionY":2.352222,"zoom":13}',500),
 ('Lyon','{"positionX":45.764043,"positionY":4.835659,"zoom":13}',200),
 ('Brest','{"positionX":48.390394,"positionY":-4.486076,"zoom":13}',100);
-
+ 
 INSERT INTO `photo` (`desc`,`positionX`,`positionY`,`url`)
 VALUES
 
